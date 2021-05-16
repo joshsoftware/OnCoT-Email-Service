@@ -5,8 +5,7 @@ import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-
+import javax.mail.Session;import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +32,8 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return registerEmailRepository.save(emailReg);
 	}
 	
+	
+	
 	public Properties getProperties()
 	{
 		Properties props = new Properties();
@@ -47,12 +48,19 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	}
 	public Session getSession(EmailRegisterReqeustDto regEmailReqDto)
 	{
+		System.out.println(regEmailReqDto.getEmail() + "   " + regEmailReqDto.getPassword());
+		
 		Session session = Session.getInstance(getProperties(), new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(regEmailReqDto.getEmail(),regEmailReqDto.getPassword());
 			}
 		});
+		
 		return session;
+	}
+	@Override
+	public void deleteEmail(long id) {
+		registerEmailRepository.deleteById(id);
 	}
 	
 }

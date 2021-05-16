@@ -1,6 +1,7 @@
 package com.josh.emailFunctionality.service;
 
 import java.util.List;
+import java.util.Properties;
 
 import javax.mail.Session;
 
@@ -13,4 +14,6 @@ public interface IEmailRegisterService {
 	public List<EmailRegistration> getAllEmails();
 	public EmailRegistration addEmail(EmailRegisterReqeustDto regEmailReqDto);
 	public Session getSession(EmailRegisterReqeustDto regEmailReqDto);	
+	public Properties getProperties();
+	public void deleteEmail(long id);
 }

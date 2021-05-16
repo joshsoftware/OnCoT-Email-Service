@@ -22,7 +22,6 @@ public class ThreadPoolTaskSchedulerConfig {
 	 @Bean(name="CustomThreadConfig")
 	    public  ScheduledThreadPoolExecutor scheduledThreadPoolExecutor( ) 
 	 {
-		 System.out.println("thp refreshed " + service);
 		 List<EmailRegistration> emails = service.getAllEmails();
 			 int size;
 			 if(emails.size()==0)
@@ -30,10 +29,9 @@ public class ThreadPoolTaskSchedulerConfig {
 			 else
 				 size = emails.size();
 			
-			 System.out.println("Emails size " + emails.size() + " actual size " + size);
 			 ScheduledThreadPoolExecutor taskExecutor = new ScheduledThreadPoolExecutor(size*2);
+			 taskExecutor.setMaximumPoolSize(size*2);
 			 	taskExecutor.setCorePoolSize(size *2);
-			 	taskExecutor.setMaximumPoolSize(size*2);
 		 
 		 return taskExecutor;
 		 
@@ -44,8 +42,6 @@ public class ThreadPoolTaskSchedulerConfig {
 		 
 			  ConfigurableApplicationContext context =  EmailFunctionalityApplication.context; 
 			  DefaultSingletonBeanRegistry registry =(DefaultSingletonBeanRegistry) context.getBeanFactory();
-			  System.out.println(registry.getSingleton("CustomThreadConfig"));
-			  
 			  ScheduledThreadPoolExecutor customerExecutor =   (ScheduledThreadPoolExecutor) registry.getSingleton("CustomThreadConfig");
 			  customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
 			  customerExecutor.setMaximumPoolSize(scheduledThreadPoolExec.getMaximumPoolSize());
