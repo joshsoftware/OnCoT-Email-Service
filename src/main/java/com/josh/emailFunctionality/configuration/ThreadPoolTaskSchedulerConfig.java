@@ -43,8 +43,8 @@ public class ThreadPoolTaskSchedulerConfig {
 			  ConfigurableApplicationContext context =  EmailFunctionalityApplication.context; 
 			  DefaultSingletonBeanRegistry registry =(DefaultSingletonBeanRegistry) context.getBeanFactory();
 			  ScheduledThreadPoolExecutor customerExecutor =   (ScheduledThreadPoolExecutor) registry.getSingleton("CustomThreadConfig");
-			  customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
 			  customerExecutor.setMaximumPoolSize(scheduledThreadPoolExec.getMaximumPoolSize());
+			  customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
 			 
 	 }
 }

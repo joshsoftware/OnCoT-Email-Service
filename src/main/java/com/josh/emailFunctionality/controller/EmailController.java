@@ -29,6 +29,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josh.emailFunctionality.Exception.AccountNotFoundException;
+import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
 import com.josh.emailFunctionality.common.Response;
 import com.josh.emailFunctionality.configuration.ThreadPoolTaskSchedulerConfig;
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
@@ -78,8 +79,11 @@ public class EmailController {
 			System.out.println("Size of emails is " + emails.size());
 			ScheduledThreadPoolExecutor newScheduledThreadPoolExec = new ScheduledThreadPoolExecutor(emails.size() * 2);
 			newScheduledThreadPoolExec.setCorePoolSize(emails.size() * 2);
+			newScheduledThreadPoolExec.setMaximumPoolSize(emails.size() * 2);
 			new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
-			return new ResponseEntity<>(HttpStatus.OK);
+			
+			Response response = new Response("Success", "Email added in database successfully", "", null, LocalDateTime.now().format(formatter));
+			return new ResponseEntity<>(response,HttpStatus.OK);
 		} catch (MessagingException e) {
 			System.out.println(e.getMessage());
 			throw new AccountNotFoundException("Invalid Email/Password");
@@ -117,6 +121,10 @@ public class EmailController {
 
 	@PostMapping("/email")
 	public ResponseEntity<?> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
+		
+		if(emailRegisterService.getAllEmails().size()==0)
+			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
+		
 		System.out.println("Time :" + timestamp);
 		emailRequestDto.setToken("Qwerty" + tokenCounter);
 		tokenCounter++;
@@ -127,7 +135,7 @@ public class EmailController {
 			e.printStackTrace();
 		}
 		Response response = new Response("Success", "Email sending is in progress", "", null, LocalDateTime.now().format(formatter));
-		return new ResponseEntity<>(response,HttpStatus.OK);
+		return new ResponseEntity<>(response,HttpStatus.CREATED);
 	}
 
 	@GetMapping("/status")
