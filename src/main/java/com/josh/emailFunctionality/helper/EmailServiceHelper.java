@@ -3,19 +3,13 @@ package com.josh.emailFunctionality.helper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
-import com.josh.emailFunctionality.configuration.EmailTemplateConfig;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -38,9 +32,6 @@ public class EmailServiceHelper {
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(587);
-		// email.setAuthenticator(new
-		// DefaultAuthenticator("super.noreply.springboot11@gmail.com",
-		// "Chinmay@Super@2021"));
 		email.setAuthenticator(new DefaultAuthenticator(sendEm.get(sendCheckCounter).getEmail(),
 				sendEm.get(sendCheckCounter).getPassword()));
 		email.setSSLOnConnect(true);

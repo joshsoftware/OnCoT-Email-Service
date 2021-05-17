@@ -3,7 +3,6 @@ package com.josh.emailFunctionality.configuration;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-<<<<<<< HEAD
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
@@ -12,13 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.josh.emailFunctionality.EmailFunctionalityApplication;
-=======
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
->>>>>>> email-template-complete-functionality
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
 
@@ -26,7 +20,6 @@ import com.josh.emailFunctionality.service.IEmailRegisterService;
 public class ThreadPoolTaskSchedulerConfig {
 	@Autowired
 	 IEmailRegisterService service;
-<<<<<<< HEAD
 	
 	 @Bean(name="CustomThreadConfig")
 	    public  ScheduledThreadPoolExecutor scheduledThreadPoolExecutor( ) 
@@ -56,16 +49,4 @@ public class ThreadPoolTaskSchedulerConfig {
 			  customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
 			 
 	 }
-=======
-	 @Bean(name="CustomThreadConfig")
-	    public ScheduledThreadPoolExecutor scheduledThreadPoolExecutor() {
-		 List<EmailRegistration> emailss = service.getAllEmails();
-		 ScheduledThreadPoolExecutor taskExecutor
-	          = new ScheduledThreadPoolExecutor(emailss.size()*2);
-		 	taskExecutor.setCorePoolSize(emailss.size()*2);
-		 	taskExecutor.setMaximumPoolSize(emailss.size()*2);
-	        return taskExecutor;
-	    }
-
->>>>>>> email-template-complete-functionality
 }

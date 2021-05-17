@@ -89,7 +89,7 @@ public class EmailController {
 	@GetMapping("/emails")
 	public ResponseEntity<?> getRegisteredEmail()
 	{
-		Response response = new Response("Success", "Email deleted successfully", "", new HashMap<>(), LocalDateTime.now().format(formatter));
+		Response response = new Response("Success", "Registerd Emails", "", new HashMap<>(), LocalDateTime.now().format(formatter));
 		response.getData().put("emails", emailRegisterService.getAllEmails());
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
@@ -121,8 +121,8 @@ public class EmailController {
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		
 		System.out.println("Time :" + timestamp);
-//		emailRequestDto.setToken("Qwerty" + tokenCounter);
-//		tokenCounter++;
+		emailRequestDto.setToken("Qwerty" + tokenCounter);
+		tokenCounter++;
 		System.out.println("Pool Size :" + scheduledThreadPoolExecutor.getPoolSize());
 		try {
 			emailService.sendEmail(emailRequestDto);
@@ -140,7 +140,7 @@ public class EmailController {
 		}).readValue(tkns);
 		Map<String, EmailStatus> emailStatus = emailService.getAllStatusByToken(tokens);
 		
-		Response response = new Response("Success", "Email deleted successfully", "", new HashMap<>(), LocalDateTime.now().format(formatter));
+		Response response = new Response("Success", "Email status", "", new HashMap<>(), LocalDateTime.now().format(formatter));
 		response.getData().put("Status", emailStatus);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}

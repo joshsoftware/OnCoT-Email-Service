@@ -15,4 +15,5 @@ public class GlobalConfig {
 	{
 		return new ObjectMapper();		
 	}
+	
 }
