@@ -5,11 +5,11 @@ import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
-import javax.mail.Session;import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
+import javax.mail.Session;
+import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
@@ -55,12 +55,10 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 				return new PasswordAuthentication(regEmailReqDto.getEmail(),regEmailReqDto.getPassword());
 			}
 		});
-		
 		return session;
 	}
 	@Override
 	public void deleteEmail(long id) {
 		registerEmailRepository.deleteById(id);
 	}
-	
 }

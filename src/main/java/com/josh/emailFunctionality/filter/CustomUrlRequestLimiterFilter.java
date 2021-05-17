@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.josh.emailFunctionality.controller.EmailController;
+import com.josh.emailFunctionality.service.EmailSendServiceImpl;
 
 @WebFilter("/api/v1/email")
 public class CustomUrlRequestLimiterFilter implements Filter {
@@ -21,7 +22,7 @@ public class CustomUrlRequestLimiterFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-		if(!EmailController.dailyLimitExceeded) {
+		if(!EmailSendServiceImpl.dailyLimitExceeded) {
 		System.out.println("Intercepted By filter");
 		chain.doFilter(request, response);
 		}

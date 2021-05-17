@@ -13,6 +13,4 @@ public interface EmailSendRespository extends JpaRepository<EmailEntity, Long> {
 	public EmailEntity findByToken(String token);
 	
 	List<EmailEntity> findByStatus(EmailStatus status);
-	
-
 }

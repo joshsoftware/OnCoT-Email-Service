@@ -65,13 +65,8 @@ public class EmailController {
 	public ResponseEntity<?> registerEmailAccount(@RequestBody EmailRegisterReqeustDto regEmailReqDto) {
 		JavaMailSenderImpl mailSenderForTestConnection = new JavaMailSenderImpl();
 		
-		Session session = Session.getInstance(emailRegisterService.getProperties(), new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(regEmailReqDto.getEmail(),regEmailReqDto.getPassword());
-			}
-		});		
 		mailSenderForTestConnection.setJavaMailProperties(emailRegisterService.getProperties());
-		mailSenderForTestConnection.setSession(session);
+		mailSenderForTestConnection.setSession(emailRegisterService.getSession(regEmailReqDto));
 		try {
 			mailSenderForTestConnection.testConnection();
 			emailRegisterService.addEmail(regEmailReqDto);
@@ -126,8 +121,8 @@ public class EmailController {
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		
 		System.out.println("Time :" + timestamp);
-		emailRequestDto.setToken("Qwerty" + tokenCounter);
-		tokenCounter++;
+//		emailRequestDto.setToken("Qwerty" + tokenCounter);
+//		tokenCounter++;
 		System.out.println("Pool Size :" + scheduledThreadPoolExecutor.getPoolSize());
 		try {
 			emailService.sendEmail(emailRequestDto);

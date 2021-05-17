@@ -7,6 +7,9 @@ import javax.mail.Session;
 
 
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
+
+import org.springframework.stereotype.Service;
+
 import com.josh.emailFunctionality.entity.EmailRegistration;
 
 public interface IEmailRegisterService {
