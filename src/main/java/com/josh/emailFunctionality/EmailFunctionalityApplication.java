@@ -15,5 +15,4 @@ public class EmailFunctionalityApplication {
 	public static void main(String[] args) {
 		context = SpringApplication.run(EmailFunctionalityApplication.class, args);
 	}
-
 }

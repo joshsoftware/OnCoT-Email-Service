@@ -3,13 +3,17 @@ package com.josh.emailFunctionality.helper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -19,11 +23,14 @@ public class EmailServiceHelper {
 	@Autowired
 	private IEmailRegisterService emailRegisterService;
 
-
 	@Autowired
 	private Configuration configuation;
 
-	public static int counter = 0;
+	@Value("${app.email.url}")
+	private String testUrl;
+
+	@Value("${app.email.subject}")
+	private String subject;
 
 	public static int sendCheckCounter = 0;
 
@@ -38,9 +45,10 @@ public class EmailServiceHelper {
 		Template template = configuation.getTemplate("emailTemplate.ftl");
 		Map<String, Object> model = new HashMap<>();
 		model.put("token", token);
+		model.put("url", testUrl);
 		String templateText = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 		email.setFrom(sendEm.get(sendCheckCounter).getEmail());
-		email.setSubject("Online Drive Invitation");
+		email.setSubject(subject);
 		email.setHtmlMsg(templateText);
 		email.addTo(to);
 		email.send();
@@ -49,8 +57,6 @@ public class EmailServiceHelper {
 		if (sendCheckCounter > sendEm.size() - 1) {
 			sendCheckCounter = 0;
 		}
-		System.out.println("Count : Email Sent : " + counter);
-		counter++;
 		return sender;
 	}
 

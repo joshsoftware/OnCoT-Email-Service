@@ -1,14 +1,14 @@
 package com.josh.emailFunctionality.Exception;
 
-public class NoEmailAccountsRegisteredException extends RuntimeException{
-	
-	public NoEmailAccountsRegisteredException(String message)
-	{
+@SuppressWarnings("serial")
+public class NoEmailAccountsRegisteredException extends RuntimeException {
+
+	public NoEmailAccountsRegisteredException(String message) {
 		super(message);
 	}
-	public NoEmailAccountsRegisteredException()
-	{
+
+	public NoEmailAccountsRegisteredException() {
 		super();
 	}
-	
+
 }

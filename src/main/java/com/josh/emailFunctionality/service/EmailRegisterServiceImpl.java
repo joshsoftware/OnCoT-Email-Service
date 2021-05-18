@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,10 @@ import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 @Service
 @Transactional
 public class EmailRegisterServiceImpl implements IEmailRegisterService {
-	
+
 	@Autowired
 	RegisterEmailRepository registerEmailRepository;
-	
+
 	@Autowired
 	EmailRegisterHelper emailRegHelper;
 
@@ -32,38 +33,39 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		List<EmailRegistration> availableEmails = registerEmailRepository.findAll();
 		return availableEmails;
 	}
+
 	@Override
 	public EmailRegistration addEmail(EmailRegisterReqeustDto regEmailReqDto) {
-		EmailRegistration emailReg =registerEmailRepository.save(new EmailRegistration(regEmailReqDto));
+		EmailRegistration emailReg = registerEmailRepository.save(new EmailRegistration(regEmailReqDto));
 		List<EmailRegistration> emails = getAllEmails();
 		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
 		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
 		return emailReg;
 	}
-	
-	public Properties getProperties()
-	{
+
+	public Properties getProperties() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
-	    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.stattls.enabled","true");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.stattls.enabled", "true");
 		return props;
 	}
-	public Session getSession(EmailRegisterReqeustDto regEmailReqDto)
-	{
+
+	public Session getSession(EmailRegisterReqeustDto regEmailReqDto) {
 		System.out.println(regEmailReqDto.getEmail() + "   " + regEmailReqDto.getPassword());
-		
+
 		Session session = Session.getInstance(getProperties(), new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(regEmailReqDto.getEmail(),regEmailReqDto.getPassword());
+				return new PasswordAuthentication(regEmailReqDto.getEmail(), regEmailReqDto.getPassword());
 			}
 		});
 		return session;
 	}
+
 	@Override
 	public void deleteEmail(long id) {
 		registerEmailRepository.deleteById(id);

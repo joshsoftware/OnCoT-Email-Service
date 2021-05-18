@@ -12,7 +12,7 @@
 <b>Test Details</b>
 <ul>
 	<li>
-		<b>Test Link:</b> <a href="abcs/candidate/overview/${token}">Click here</a>
+		<b>Test Link:</b> <a href="${url}/${token}">Click here</a>
 	</li>
 </ul>
 
