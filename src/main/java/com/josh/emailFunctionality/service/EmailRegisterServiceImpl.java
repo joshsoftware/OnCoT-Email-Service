@@ -2,6 +2,7 @@ package com.josh.emailFunctionality.service;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
@@ -10,6 +11,8 @@ import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.josh.emailFunctionality.configuration.ThreadPoolTaskSchedulerConfig;
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
@@ -29,6 +32,11 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	@Override
 	public EmailRegistration addEmail(EmailRegisterReqeustDto regEmailReqDto) {
 		EmailRegistration emailReg = new EmailRegistration(regEmailReqDto);
+		List<EmailRegistration> emails = getAllEmails();
+		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = new ScheduledThreadPoolExecutor(emails.size() * 2);
+		newScheduledThreadPoolExec.setCorePoolSize(emails.size() * 2);
+		newScheduledThreadPoolExec.setMaximumPoolSize(emails.size() * 2);
+		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
 		return registerEmailRepository.save(emailReg);
 	}
 	
@@ -60,5 +68,10 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	@Override
 	public void deleteEmail(long id) {
 		registerEmailRepository.deleteById(id);
+		List<EmailRegistration> emails = getAllEmails();
+		System.out.println("Size of emails is " + emails.size());
+		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = new ScheduledThreadPoolExecutor(emails.size() * 2);
+		newScheduledThreadPoolExec.setCorePoolSize(emails.size() * 2);
+		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
 	}
 }

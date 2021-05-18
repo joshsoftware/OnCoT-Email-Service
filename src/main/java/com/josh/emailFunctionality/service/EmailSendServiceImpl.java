@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +22,7 @@ import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailServiceHelper;
 import com.josh.emailFunctionality.repository.EmailSendRespository;
+import com.sun.mail.smtp.SMTPSenderFailedException;
 
 import ch.qos.logback.core.util.FixedDelay;
 
@@ -93,7 +97,9 @@ public class EmailSendServiceImpl implements IEmailSendService {
 						//call the schedule method
 						//In second incremetal development keep a flag in database to know given email is available or not
 						dailyLimitExceeded = true;
+						resetDaiyLimit();
 						updateEmail(email.getToken(),EmailStatus.FAILED);
+						//this should be in database so in case our system restarts it wont affect the difference between times
 						dailyLimitTimestamp = System.currentTimeMillis();
 						//call the method that would set the timestamp when the daily limit has reached
 						//scheduledThreadPoolExecutor.getQueue().put(this);
@@ -176,26 +182,17 @@ public class EmailSendServiceImpl implements IEmailSendService {
 		return emailRepository.findByStatus(status);
 	}
 	
-//	@Scheduled(fixedDelay = 24*60*60*1000)
-	@Scheduled(fixedDelay = 5000)
+	private Timer timer = new Timer();
+
 	public void resetDaiyLimit() {
-		long current = System.currentTimeMillis();
-		long difference = current - dailyLimitTimestamp;
 		System.out.println("dailyLimitExceeded flag : " + dailyLimitExceeded);
-		if(difference > 24*60*60*1000 && dailyLimitTimestamp != 0) {
-			System.out.println("Logic successfull");
-			dailyLimitExceeded = false;
-			dailyLimitTimestamp = 0;
-
-		}
-		
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				System.out.println("Logic successfull");
+				dailyLimitExceeded = false;
+				dailyLimitTimestamp = 0;
+			}
+		}, 24*60*60*1000);
 	}
-
-
-	
-	
-
-
-	
-
 }
