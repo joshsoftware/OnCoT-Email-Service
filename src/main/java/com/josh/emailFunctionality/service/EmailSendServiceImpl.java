@@ -52,8 +52,8 @@ public class EmailSendServiceImpl implements IEmailSendService {
 			EmailEntity email = new EmailEntity(emailRequestDto);
 			try {
 				String sender = emailServiceHelper.sendEmailHelper(emailRequestDto.getEmail(),emailRequestDto.getToken());
-				stat = EmailStatus.COMPLETED;
 				email.setSender(sender);
+				stat = EmailStatus.COMPLETED;
 				updateEmail(email.getToken(),stat);
 			}
 			catch(Exception e)

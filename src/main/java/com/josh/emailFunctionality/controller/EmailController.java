@@ -102,7 +102,9 @@ public class EmailController {
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		try {
 			EmailEntity email = emailService.saveEmail(emailRequestDto);
+		
 			emailService.sendEmail(emailRequestDto);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
