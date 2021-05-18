@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.josh.emailFunctionality.EmailFunctionalityApplication;
 import com.josh.emailFunctionality.entity.EmailRegistration;
+import com.josh.emailFunctionality.service.EmailSendServiceImpl;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
 
 @Configuration
@@ -21,6 +22,7 @@ public class ThreadPoolTaskSchedulerConfig {
 	@Bean(name = "CustomThreadConfig")
 	public ScheduledThreadPoolExecutor scheduledThreadPoolExecutor() {
 		List<EmailRegistration> emails = service.getAllEmails();
+		EmailSendServiceImpl.emailsSize = emails.size();
 		int size;
 		if (emails.size() == 0)
 			size = 1;
@@ -51,6 +53,6 @@ public class ThreadPoolTaskSchedulerConfig {
 			customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
 			customerExecutor.setMaximumPoolSize(scheduledThreadPoolExec.getMaximumPoolSize());
 		}
-
+		EmailSendServiceImpl.emailsSize = service.getAllEmails().size();
 	}
 }

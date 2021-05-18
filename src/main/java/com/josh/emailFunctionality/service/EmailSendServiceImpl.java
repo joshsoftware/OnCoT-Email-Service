@@ -31,7 +31,8 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	 
 	 
 	 public static int sendCheckCounter = 0;
-	 
+	 public static int dailyLimitExceptionCounter = 0;
+	 public static int emailsSize = 0; 
 	 public static boolean dailyLimitExceeded = false;
 
 		public static int limitCounter = 0;
