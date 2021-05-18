@@ -64,19 +64,11 @@ public class EmailController {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerEmailAccount(@RequestBody EmailRegisterReqeustDto regEmailReqDto) {
 		JavaMailSenderImpl mailSenderForTestConnection = new JavaMailSenderImpl();
-		
 		mailSenderForTestConnection.setJavaMailProperties(emailRegisterService.getProperties());
 		mailSenderForTestConnection.setSession(emailRegisterService.getSession(regEmailReqDto));
 		try {
 			mailSenderForTestConnection.testConnection();
-			emailRegisterService.addEmail(regEmailReqDto);
-			List<EmailRegistration> emails = emailRegisterService.getAllEmails();
-			System.out.println("Size of emails is " + emails.size());
-			ScheduledThreadPoolExecutor newScheduledThreadPoolExec = new ScheduledThreadPoolExecutor(emails.size() * 2);
-			newScheduledThreadPoolExec.setCorePoolSize(emails.size() * 2);
-			newScheduledThreadPoolExec.setMaximumPoolSize(emails.size() * 2);
-			new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
-			
+			emailRegisterService.addEmail(regEmailReqDto);	
 			Response response = new Response("Success", "Email added in database successfully", "", null, LocalDateTime.now().format(formatter));
 			return new ResponseEntity<>(response,HttpStatus.OK);
 		} catch (MessagingException e) {
@@ -97,11 +89,6 @@ public class EmailController {
 	@DeleteMapping("/email/{id}")
 	public ResponseEntity<?> deleteEmailAccount(@PathVariable long id) {
 			emailRegisterService.deleteEmail(id);
-			List<EmailRegistration> emails = emailRegisterService.getAllEmails();
-			System.out.println("Size of emails is " + emails.size());
-			ScheduledThreadPoolExecutor newScheduledThreadPoolExec = new ScheduledThreadPoolExecutor(emails.size() * 2);
-			newScheduledThreadPoolExec.setCorePoolSize(emails.size() * 2);
-			new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
 			Response response = new Response("Success", "Email deleted successfully", "", null, LocalDateTime.now().format(formatter));
 			return new ResponseEntity<>(response,HttpStatus.OK);
 	}
@@ -139,8 +126,7 @@ public class EmailController {
 		String[] tokens = objectMapper.reader().forType(new TypeReference<String[]>() {
 		}).readValue(tkns);
 		Map<String, EmailStatus> emailStatus = emailService.getAllStatusByToken(tokens);
-		
-		Response response = new Response("Success", "Email status", "", new HashMap<>(), LocalDateTime.now().format(formatter));
+		Response response = new Response("Success", "Email deleted successfully", "", new HashMap<>(), LocalDateTime.now().format(formatter));
 		response.getData().put("Status", emailStatus);
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
