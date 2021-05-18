@@ -1751,3 +1751,25 @@ java.lang.IllegalArgumentException: null
 2021-05-18 13:53:48.712  INFO 12494 --- [RMI TCP Connection(11)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2021-05-18 13:53:48.713  INFO 12494 --- [RMI TCP Connection(11)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
 2021-05-18 13:53:48.724  INFO 12494 --- [RMI TCP Connection(11)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2021-05-18 14:38:44.496  INFO 15986 --- [main] c.j.e.controller.EmailControllerTest     : Starting EmailControllerTest using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 15986 (started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
+2021-05-18 14:38:44.500  INFO 15986 --- [main] c.j.e.controller.EmailControllerTest     : No active profile set, falling back to default profiles: default
+2021-05-18 14:38:46.335  INFO 15986 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-18 14:38:47.032  INFO 15986 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2021-05-18 14:38:47.033  INFO 15986 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2021-05-18 14:38:47.035  INFO 15986 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2021-05-18 14:38:47.087  INFO 15986 --- [main] c.j.e.controller.EmailControllerTest     : Started EmailControllerTest in 3.11 seconds (JVM running for 4.368)
+2021-05-18 14:38:47.126  INFO 15986 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2021-05-18 14:38:47.131  INFO 15986 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2021-05-18 14:38:47.132  INFO 15986 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2021-05-18 14:38:47.291  INFO 15986 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-05-18 14:42:16.129  INFO 16130 --- [main] c.j.e.controller.EmailControllerTest     : Starting EmailControllerTest using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 16130 (started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
+2021-05-18 14:42:16.139  INFO 16130 --- [main] c.j.e.controller.EmailControllerTest     : No active profile set, falling back to default profiles: default
+2021-05-18 14:42:17.793  INFO 16130 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-18 14:42:18.236  INFO 16130 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2021-05-18 14:42:18.236  INFO 16130 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2021-05-18 14:42:18.237  INFO 16130 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2021-05-18 14:42:18.278  INFO 16130 --- [main] c.j.e.controller.EmailControllerTest     : Started EmailControllerTest in 2.752 seconds (JVM running for 3.919)
+2021-05-18 14:42:18.315  INFO 16130 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2021-05-18 14:42:18.317  INFO 16130 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2021-05-18 14:42:18.320  INFO 16130 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2021-05-18 14:42:18.473  INFO 16130 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'

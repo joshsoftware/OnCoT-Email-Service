@@ -56,4 +56,7 @@ public class EmailRegistrationServiceTest {
 		assertEquals(emailRegistration.getEmail(), regEmailReqDto.getEmail());
 	}
 
+	
+
+    
 }
