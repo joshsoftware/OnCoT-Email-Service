@@ -117,7 +117,7 @@ public class EmailController {
 		String[] tokens = objectMapper.reader().forType(new TypeReference<String[]>() {
 		}).readValue(tkns);
 		Map<String, EmailStatus> emailStatus = emailService.getAllStatusByToken(tokens);
-		Response response = new Response("Success", "Email deleted successfully", "", new HashMap<>(),
+		Response response = new Response("Success", "Status", "", new HashMap<>(),
 				LocalDateTime.now().format(formatter));
 		response.getData().put("Status", emailStatus);
 		return new ResponseEntity<>(response, HttpStatus.OK);
