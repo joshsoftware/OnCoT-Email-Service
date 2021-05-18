@@ -70,7 +70,12 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	public void deleteEmail(long id) {
 		registerEmailRepository.deleteById(id);
 		List<EmailRegistration> emails = getAllEmails();
-		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
+		int size;
+		if(emails.size()==0)
+			size = 1;
+		else
+			size = emails.size();
+		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(size);
 		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
 	}
 }
