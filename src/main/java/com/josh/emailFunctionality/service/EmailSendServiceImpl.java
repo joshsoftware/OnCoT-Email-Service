@@ -49,7 +49,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	 @Async("CustomThreadConfig")
 	public void sendEmail(EmailRequestDto emailRequestDto) throws Exception {
 			EmailStatus stat;
-			EmailEntity email = saveEmail(emailRequestDto);
+			EmailEntity email = new EmailEntity(emailRequestDto);
 			try {
 				String sender = emailServiceHelper.sendEmailHelper(emailRequestDto.getEmail(),emailRequestDto.getToken());
 				stat = EmailStatus.COMPLETED;
@@ -113,7 +113,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 		EmailEntity sample = emailRepository.findByToken(emailRequestDto.getToken());
 		if(sample == null) {
 			EmailEntity email = new EmailEntity(emailRequestDto);
-			email.setStatus(EmailStatus.NOTSTARTED);
+			email.setStatus(EmailStatus.INPROGRESS);
 			EmailEntity email1 = emailRepository.save(email);  
 			return email1;
 		}
