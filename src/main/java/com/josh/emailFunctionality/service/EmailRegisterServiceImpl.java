@@ -7,7 +7,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.josh.emailFunctionality.configuration.ThreadPoolTaskSchedulerConfig;
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
 import com.josh.emailFunctionality.entity.EmailRegistration;
+import com.josh.emailFunctionality.helper.EmailRegisterHelper;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 
 @Service
@@ -23,6 +23,9 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	
 	@Autowired
 	RegisterEmailRepository registerEmailRepository;
+	
+	@Autowired
+	EmailRegisterHelper emailRegHelper;
 
 	@Override
 	public List<EmailRegistration> getAllEmails() {
@@ -33,14 +36,10 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	public EmailRegistration addEmail(EmailRegisterReqeustDto regEmailReqDto) {
 		EmailRegistration emailReg = new EmailRegistration(regEmailReqDto);
 		List<EmailRegistration> emails = getAllEmails();
-		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = new ScheduledThreadPoolExecutor(emails.size() * 2);
-		newScheduledThreadPoolExec.setCorePoolSize(emails.size() * 2);
-		newScheduledThreadPoolExec.setMaximumPoolSize(emails.size() * 2);
+		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
 		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
 		return registerEmailRepository.save(emailReg);
 	}
-	
-	
 	
 	public Properties getProperties()
 	{
@@ -69,9 +68,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	public void deleteEmail(long id) {
 		registerEmailRepository.deleteById(id);
 		List<EmailRegistration> emails = getAllEmails();
-		System.out.println("Size of emails is " + emails.size());
-		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = new ScheduledThreadPoolExecutor(emails.size() * 2);
-		newScheduledThreadPoolExec.setCorePoolSize(emails.size() * 2);
+		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
 		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
 	}
 }

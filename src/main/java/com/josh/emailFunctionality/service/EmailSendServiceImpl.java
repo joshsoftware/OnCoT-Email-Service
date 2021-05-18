@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +20,7 @@ import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailServiceHelper;
 import com.josh.emailFunctionality.repository.EmailSendRespository;
-import com.sun.mail.smtp.SMTPSenderFailedException;
 
-import ch.qos.logback.core.util.FixedDelay;
 
 @Service
 @Transactional
