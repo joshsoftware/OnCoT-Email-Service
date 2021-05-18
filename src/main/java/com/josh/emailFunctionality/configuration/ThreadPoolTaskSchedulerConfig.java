@@ -30,10 +30,14 @@ public class ThreadPoolTaskSchedulerConfig {
 				 size = 1;
 			 else
 				 size = emails.size();
-			
-			 ScheduledThreadPoolExecutor taskExecutor = new ScheduledThreadPoolExecutor(size*2);
-			 taskExecutor.setMaximumPoolSize(size*2);
-			 	taskExecutor.setCorePoolSize(size *2);
+			int multiplier=0;
+			if(size==1)
+				multiplier=2;
+			else
+				multiplier = 1;
+			 ScheduledThreadPoolExecutor taskExecutor = new ScheduledThreadPoolExecutor(size*multiplier);
+			 taskExecutor.setMaximumPoolSize(size*multiplier);
+			 taskExecutor.setCorePoolSize(size *multiplier);
 		 
 		 return taskExecutor;
 		 
@@ -45,8 +49,19 @@ public class ThreadPoolTaskSchedulerConfig {
 			  ConfigurableApplicationContext context =  EmailFunctionalityApplication.context; 
 			  DefaultSingletonBeanRegistry registry =(DefaultSingletonBeanRegistry) context.getBeanFactory();
 			  ScheduledThreadPoolExecutor customerExecutor =   (ScheduledThreadPoolExecutor) registry.getSingleton("CustomThreadConfig");
-			  customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
-			  customerExecutor.setMaximumPoolSize(scheduledThreadPoolExec.getMaximumPoolSize());
+			 System.out.println("core " + customerExecutor.getCorePoolSize() + "  max " + customerExecutor.getMaximumPoolSize());
+			 System.out.println("new core " + scheduledThreadPoolExec.getCorePoolSize() + "  new max " + scheduledThreadPoolExec.getMaximumPoolSize());
+			 if(customerExecutor.getCorePoolSize() < scheduledThreadPoolExec.getCorePoolSize())
+			 {
+				 customerExecutor.setMaximumPoolSize(scheduledThreadPoolExec.getMaximumPoolSize());
+				 customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
+			 }
+			 else
+			 {
+				 customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
+				 customerExecutor.setMaximumPoolSize(scheduledThreadPoolExec.getMaximumPoolSize());
+			 }
+			 
 			 
 	 }
 }

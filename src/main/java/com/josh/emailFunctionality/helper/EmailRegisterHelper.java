@@ -9,6 +9,7 @@ public class EmailRegisterHelper {
 
 	public ScheduledThreadPoolExecutor reinitiateThreadPool(int size)
 	{
+		System.out.println(size);
 		int multiplyer = 0;
 		if(size == 1)
 			multiplyer=2; 

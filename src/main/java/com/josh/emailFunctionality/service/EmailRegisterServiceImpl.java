@@ -34,11 +34,11 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	}
 	@Override
 	public EmailRegistration addEmail(EmailRegisterReqeustDto regEmailReqDto) {
-		EmailRegistration emailReg = new EmailRegistration(regEmailReqDto);
+		EmailRegistration emailReg =registerEmailRepository.save(new EmailRegistration(regEmailReqDto));
 		List<EmailRegistration> emails = getAllEmails();
 		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
 		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
-		return registerEmailRepository.save(emailReg);
+		return emailReg;
 	}
 	
 	public Properties getProperties()
