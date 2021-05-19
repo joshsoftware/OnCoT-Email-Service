@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.josh.emailFunctionality.entity.EmailRegistration;
+import com.josh.emailFunctionality.service.EmailSendServiceImpl;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
 
 import freemarker.template.Configuration;
@@ -25,6 +26,9 @@ public class EmailServiceHelper {
 
 	@Autowired
 	private Configuration configuation;
+	
+	@Autowired
+	EncryptionDecryptionHelper helper;
 
 	@Value("${app.email.url}")
 	private String testUrl;
@@ -33,14 +37,24 @@ public class EmailServiceHelper {
 	private String subject;
 
 	public static int sendCheckCounter = 0;
+	private static int loopCounter=0;
 
 	public String sendEmailHelper(String to, String token) throws Exception {
 		List<EmailRegistration> sendEm = emailRegisterService.getAllEmails();
+		while(!sendEm.get(sendCheckCounter).isAvailable())
+		{
+			loopCounter++;
+			sendCheckCounter++;
+			if(sendCheckCounter==(sendEm.size()))
+				sendCheckCounter=0;
+			System.out.println("sendCheckCounter - " + sendCheckCounter);
+		}
+		System.out.println("Sendcheckcounter " + sendCheckCounter);
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(587);
 		email.setAuthenticator(new DefaultAuthenticator(sendEm.get(sendCheckCounter).getEmail(),
-				sendEm.get(sendCheckCounter).getPassword()));
+				helper.decrypt(sendEm.get(sendCheckCounter).getPassword())));
 		email.setSSLOnConnect(true);
 		Template template = configuation.getTemplate("emailTemplate.ftl");
 		Map<String, Object> model = new HashMap<>();

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
 
 import lombok.AllArgsConstructor;
@@ -27,15 +28,16 @@ public class EmailRegistration {
 	
 	@Column(name = "email",unique = true)
 	private String email;
-	
+	@JsonIgnore
 	@Column(name = "password")
 	private String password;
 	
-	
+	private boolean isAvailable;
 	
 	public EmailRegistration(EmailRegisterReqeustDto reqDto)
 	{
 		this.email = reqDto.getEmail();
 		this.password = reqDto.getPassword();
+		this.isAvailable = true;
 	}
 }

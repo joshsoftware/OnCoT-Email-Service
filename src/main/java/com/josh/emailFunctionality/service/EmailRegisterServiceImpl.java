@@ -1,6 +1,7 @@
 package com.josh.emailFunctionality.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -16,6 +17,7 @@ import com.josh.emailFunctionality.configuration.ThreadPoolTaskSchedulerConfig;
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.helper.EmailRegisterHelper;
+import com.josh.emailFunctionality.helper.EncryptionDecryptionHelper;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 
 @Service
@@ -27,6 +29,8 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 
 	@Autowired
 	EmailRegisterHelper emailRegHelper;
+	@Autowired
+	EncryptionDecryptionHelper helper;
 
 	@Override
 	public List<EmailRegistration> getAllEmails() {
@@ -36,10 +40,11 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 
 	@Override
 	public EmailRegistration addEmail(EmailRegisterReqeustDto regEmailReqDto) {
+		regEmailReqDto.setPassword(helper.encrypt(regEmailReqDto.getPassword()));
 		EmailRegistration emailReg = registerEmailRepository.save(new EmailRegistration(regEmailReqDto));
 		List<EmailRegistration> emails = getAllEmails();
 		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
-		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
+		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec,emails.size());
 		return emailReg;
 	}
 
@@ -67,15 +72,26 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	}
 
 	@Override
-	public void deleteEmail(long id) {
-		registerEmailRepository.deleteById(id);
-		List<EmailRegistration> emails = getAllEmails();
-		int size;
-		if(emails.size()==0)
-			size = 1;
+	public EmailRegistration deleteEmail(long id) {
+		Optional<EmailRegistration> emReg= registerEmailRepository.findById(id);
+		if(!emReg.isEmpty())
+		{
+			if(!emReg.get().isAvailable())
+				EmailSendServiceImpl.dailyLimitExceptionCounter--;
+			registerEmailRepository.deleteById(id);
+			List<EmailRegistration> emails = getAllEmails();
+			int size;
+			if(emails.size()==0)
+				size = 1;
+			else
+				size = emails.size();
+			ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(size);
+			new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec,emails.size());
+			return emReg.get();
+		}
 		else
-			size = emails.size();
-		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(size);
-		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec);
+		{
+			return null;
+		}
 	}
 }

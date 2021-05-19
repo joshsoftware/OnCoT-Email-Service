@@ -31,7 +31,7 @@ public class EmailRegistrationServiceTest {
 
 	public List<EmailRegistration> getAllEmails() {
 		List<EmailRegistration> availableEmails = new ArrayList<>();
-		availableEmails.add(new EmailRegistration(1l, "test@gmail.com", "test"));
+		availableEmails.add(new EmailRegistration(1l, "test@gmail.com", "test",true));
 		return availableEmails;
 	}
 	public EmailRegistration getEmailRegistration(EmailRegisterReqeustDto emRDto)

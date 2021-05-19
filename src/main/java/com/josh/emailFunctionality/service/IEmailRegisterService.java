@@ -18,5 +18,5 @@ public interface IEmailRegisterService {
 
 	public Properties getProperties();
 
-	public void deleteEmail(long id);
+	public EmailRegistration deleteEmail(long id);
 }
