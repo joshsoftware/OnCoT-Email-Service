@@ -27,7 +27,7 @@ public class CustomUrlRequestLimiterFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		if (EmailSendServiceImpl.dailyLimitExceptionCounter < EmailSendServiceImpl.emailsSize) {
+		if (EmailSendServiceImpl.dailyLimitExceptionCounter <= EmailSendServiceImpl.emailsSize) {
 			chain.doFilter(request, response);
 		} else {
 			response.sendError(500, "Daily Quota Exceeded");

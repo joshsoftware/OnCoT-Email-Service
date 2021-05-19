@@ -1785,3 +1785,87 @@ org.postgresql.util.PSQLException: The server requested password-based authentic
 2021-05-19 17:58:12.906  INFO 28387 --- [RMI TCP Connection(4)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2021-05-19 17:58:12.907  INFO 28387 --- [RMI TCP Connection(4)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
 2021-05-19 17:58:12.923  INFO 28387 --- [RMI TCP Connection(4)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2021-05-19 17:59:55.773  INFO 28861 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Starting EmailFunctionalityApplication using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 28861 (/home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot/target/classes started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
+2021-05-19 17:59:55.777 DEBUG 28861 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Running with Spring Boot v2.4.5, Spring v5.3.6
+2021-05-19 17:59:55.778  INFO 28861 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : No active profile set, falling back to default profiles: default
+2021-05-19 17:59:55.871  INFO 28861 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-05-19 17:59:55.872  INFO 28861 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-05-19 17:59:56.965  INFO 28861 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-19 17:59:57.021  INFO 28861 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 2 JPA repository interfaces.
+2021-05-19 17:59:57.732  INFO 28861 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-05-19 17:59:57.743  INFO 28861 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-19 17:59:57.744  INFO 28861 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-05-19 17:59:57.835  INFO 28861 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-05-19 17:59:57.835  INFO 28861 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1961 ms
+2021-05-19 17:59:58.075  INFO 28861 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-19 17:59:58.124  INFO 28861 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-05-19 17:59:58.249  INFO 28861 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-19 17:59:58.369  INFO 28861 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-19 17:59:58.704  INFO 28861 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-19 17:59:58.727  INFO 28861 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+2021-05-19 17:59:59.323  INFO 28861 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-19 17:59:59.329  INFO 28861 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-19 17:59:59.363  INFO 28861 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-05-19 18:00:00.157  WARN 28861 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-19 18:00:00.644  INFO 28861 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-05-19 18:00:00.994  INFO 28861 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Started EmailFunctionalityApplication in 5.704 seconds (JVM running for 6.549)
+2021-05-19 18:02:00.864  INFO 28861 --- [RMI TCP Connection(4)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2021-05-19 18:02:00.888  INFO 28861 --- [RMI TCP Connection(4)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-19 18:02:00.891  INFO 28861 --- [RMI TCP Connection(4)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-19 18:02:00.913  INFO 28861 --- [RMI TCP Connection(4)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-19 18:07:08.536  INFO 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Starting EmailFunctionalityApplication using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 29285 (/home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot/target/classes started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
+2021-05-19 18:07:08.539 DEBUG 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Running with Spring Boot v2.4.5, Spring v5.3.6
+2021-05-19 18:07:08.539  INFO 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : No active profile set, falling back to default profiles: default
+2021-05-19 18:07:08.600  INFO 29285 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-05-19 18:07:08.600  INFO 29285 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-05-19 18:07:09.518  INFO 29285 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-19 18:07:09.575  INFO 29285 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 2 JPA repository interfaces.
+2021-05-19 18:07:10.333  INFO 29285 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-05-19 18:07:10.343  INFO 29285 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-19 18:07:10.344  INFO 29285 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-05-19 18:07:10.429  INFO 29285 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-05-19 18:07:10.430  INFO 29285 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1829 ms
+2021-05-19 18:07:10.648  INFO 29285 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-19 18:07:10.693  INFO 29285 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-05-19 18:07:10.815  INFO 29285 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-19 18:07:10.909  INFO 29285 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-19 18:07:11.231  INFO 29285 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-19 18:07:11.245  INFO 29285 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+2021-05-19 18:07:11.954  INFO 29285 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-19 18:07:11.965  INFO 29285 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-19 18:07:12.027  INFO 29285 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-05-19 18:07:13.078  WARN 29285 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-19 18:07:13.589  INFO 29285 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-05-19 18:07:13.948  INFO 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Started EmailFunctionalityApplication in 5.801 seconds (JVM running for 6.667)
+2021-05-19 18:07:46.259  INFO 29285 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-05-19 18:07:46.259  INFO 29285 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-05-19 18:07:46.261  INFO 29285 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-05-19 18:09:41.836  INFO 29285 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-19 18:09:41.843  INFO 29285 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-19 18:09:41.865  INFO 29285 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-05-19 18:09:41.977  INFO 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Starting EmailFunctionalityApplication using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 29285 (/home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot/target/classes started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
+2021-05-19 18:09:41.977 DEBUG 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Running with Spring Boot v2.4.5, Spring v5.3.6
+2021-05-19 18:09:41.978  INFO 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : No active profile set, falling back to default profiles: default
+2021-05-19 18:09:42.290  INFO 29285 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-19 18:09:42.306  INFO 29285 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 2 JPA repository interfaces.
+2021-05-19 18:09:42.456  INFO 29285 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-05-19 18:09:42.457  INFO 29285 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-19 18:09:42.458  INFO 29285 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-05-19 18:09:42.469  INFO 29285 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-05-19 18:09:42.470  INFO 29285 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 489 ms
+2021-05-19 18:09:42.539  INFO 29285 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-19 18:09:42.544  INFO 29285 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2021-05-19 18:09:42.576  INFO 29285 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2021-05-19 18:09:42.576  INFO 29285 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+2021-05-19 18:09:42.661  INFO 29285 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-19 18:09:42.662  INFO 29285 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-19 18:09:42.684  INFO 29285 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-05-19 18:09:43.050  WARN 29285 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-19 18:09:43.303  INFO 29285 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-05-19 18:09:43.459  INFO 29285 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Started EmailFunctionalityApplication in 1.515 seconds (JVM running for 156.178)
+2021-05-19 18:09:43.463  INFO 29285 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2021-05-19 18:09:48.439  INFO 29285 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-05-19 18:09:48.439  INFO 29285 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-05-19 18:09:48.441  INFO 29285 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2021-05-19 18:09:48.500  WARN 29285 --- [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException: Please registered at least 1 email account]
+2021-05-19 18:10:27.895  WARN 29285 --- [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException: Please registered at least 1 email account]
