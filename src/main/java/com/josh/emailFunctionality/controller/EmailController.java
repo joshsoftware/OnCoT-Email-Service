@@ -101,7 +101,7 @@ public class EmailController {
 		if (emailRegisterService.getAllEmails().size() == 0)
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		try {
-			EmailEntity email = emailService.saveEmail(emailRequestDto);
+			emailService.saveEmail(emailRequestDto);
 		
 			emailService.sendEmail(emailRequestDto);
 			

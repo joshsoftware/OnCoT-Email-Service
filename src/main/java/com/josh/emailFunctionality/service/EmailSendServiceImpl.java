@@ -21,7 +21,6 @@ import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailServiceHelper;
 import com.josh.emailFunctionality.repository.EmailSendRespository;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
-import com.sun.mail.smtp.SMTPSendFailedException;
 
 
 @Service
@@ -54,11 +53,11 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	public void sendEmail(EmailRequestDto emailRequestDto) throws Exception {
 		
 		 if(emailRegRepo.findAllIsAvailable().size()==0)
-			 updateEmail(emailRequestDto.getToken(),EmailStatus.FAILED);
+			 updateEmail(emailRequestDto.getToken(),EmailStatus.FAILED,"");
 		 else
 		 {
 			 EmailStatus stat;
-				String senderEmail="aasas";
+				String senderEmail="";
 				EmailEntity email = new EmailEntity(emailRequestDto);
 				try {
 					senderEmail =
@@ -66,8 +65,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 							  .getToken()); 
 					stat = EmailStatus.COMPLETED;
 					email.setSender(senderEmail); 
-					updateEmail(email.getToken(),stat);
-					//throw new SMTPSendFailedException(null, 0, null, null, null, null, null);
+					updateEmail(email.getToken(),stat,senderEmail);
 				}
 				catch(Exception e)
 				{
@@ -77,14 +75,13 @@ public class EmailSendServiceImpl implements IEmailSendService {
 							scheduledThreadPoolExecutor.awaitTermination(15, TimeUnit.MINUTES);
 							String sender = emailServiceHelper.sendEmailHelper(emailRequestDto.getEmail(), emailRequestDto.getToken());
 							email.setSender(sender);
-							updateEmail(email.getToken(),EmailStatus.COMPLETED);
+							updateEmail(email.getToken(),EmailStatus.COMPLETED,sender);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
 					}
-					else if(true)
+					else if(e.getMessage().contains("com.sun.mail.smtp.SMTPSendFailedException"))
 					{
-						//e.getMessage().contains("com.sun.mail.smtp.SMTPSendFailedException")
 						try {
 							e.printStackTrace();
 							dailyLimitExceptionCounter++;
@@ -92,14 +89,13 @@ public class EmailSendServiceImpl implements IEmailSendService {
 							changeAvailableStatus(senderEmail, false);
 							if(dailyLimitExceptionCounter < emailsSize)
 							{
-								emailServiceHelper.sendEmailHelper(emailRequestDto.getEmail(),emailRequestDto
+								senderEmail = emailServiceHelper.sendEmailHelper(emailRequestDto.getEmail(),emailRequestDto
 										  .getToken()); 
-								email.setSender(senderEmail); 
 								stat = EmailStatus.COMPLETED;
-								updateEmail(email.getToken(),stat);
+								updateEmail(email.getToken(),stat,senderEmail);
 							} 
 							else {
-								updateEmail(email.getToken(),EmailStatus.FAILED);							
+								updateEmail(email.getToken(),EmailStatus.FAILED,"");							
 							}
 							dailyLimitTimestamp = System.currentTimeMillis();
 						} catch (Exception e1) {
@@ -110,21 +106,21 @@ public class EmailSendServiceImpl implements IEmailSendService {
 					{
 						try {
 							scheduledThreadPoolExecutor.awaitTermination(10, TimeUnit.MINUTES);
-							String sender = emailServiceHelper.sendEmailHelper(emailRequestDto.getEmail(), emailRequestDto.getToken());
-							email.setSender(sender);
-							updateEmail(email.getToken(),EmailStatus.COMPLETED);
+							senderEmail = emailServiceHelper.sendEmailHelper(emailRequestDto.getEmail(), emailRequestDto.getToken());
+							email.setSender(senderEmail);
+							updateEmail(email.getToken(),EmailStatus.COMPLETED,senderEmail);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
 					}
 					else if(e.getMessage().contains("com.sun.mail.smtp.SMTPAddressFailedException"))
 					{
-						updateEmail(email.getToken(),EmailStatus.FAILED);
+						updateEmail(email.getToken(),EmailStatus.FAILED,"");
 					}
 					else {
 						e.printStackTrace();
 						try {
-							updateEmail(email.getToken(),EmailStatus.FAILED);
+							updateEmail(email.getToken(),EmailStatus.FAILED,"");
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -136,30 +132,30 @@ public class EmailSendServiceImpl implements IEmailSendService {
 
 	
 	public EmailEntity saveEmail( EmailRequestDto emailRequestDto) {
-		EmailEntity sample = emailRepository.findByToken(emailRequestDto.getToken());
-		if(sample == null) {
-			EmailEntity email = new EmailEntity(emailRequestDto);
-			email.setStatus(EmailStatus.INPROGRESS);
-			EmailEntity email1 = emailRepository.save(email);  
-			return email1;
+		EmailEntity alreadyExist = emailRepository.findByToken(emailRequestDto.getToken());
+		if(alreadyExist == null) {
+			EmailEntity newEmail = new EmailEntity(emailRequestDto);
+			newEmail.setStatus(EmailStatus.INPROGRESS);
+			EmailEntity savedEmail = emailRepository.save(newEmail);  
+			return savedEmail;
 		}
 		else {
-			return sample;
+			return alreadyExist;
 		}
 	
 	}
 	
 	public void changeAvailableStatus(String email,boolean status)
 	{
-		System.out.println( "email  " + email);
 		EmailRegistration emailReg = emailRegRepo.findByEmail(email);
 		emailReg.setAvailable(status);
 		emailRegRepo.save(emailReg);
 	}
 	
-	public EmailEntity updateEmail(String token,EmailStatus status) {
+	public EmailEntity updateEmail(String token,EmailStatus status,String sender) {
 		EmailEntity updateEmail = emailRepository.findByToken(token);
 		updateEmail.setStatus(status);
+		updateEmail.setSender(sender);
 		emailRepository.save(updateEmail);
 		return updateEmail;
 	}
@@ -187,11 +183,9 @@ public class EmailSendServiceImpl implements IEmailSendService {
 			
 			@Override
 			public void run() {
-				System.out.println("Thread started ");
 				timer.schedule(new TimerTask() {
 					@Override
 					public void run() {
-						System.out.println("Logic successfull " + sender);
 						dailyLimitExceptionCounter--;
 						dailyLimitTimestamp = 0;
 						if(emailRegRepo.findByEmail(sender)!= null)

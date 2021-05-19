@@ -17,7 +17,7 @@ public interface IEmailSendService {
 
 	public EmailEntity saveEmail( EmailRequestDto emailRequestDto);
 	
-	public EmailEntity updateEmail(String token,EmailStatus status);
+	public EmailEntity updateEmail(String token,EmailStatus status,String sender);
 	
 	public List<EmailEntity> getbyStatus(EmailStatus status);
 	
