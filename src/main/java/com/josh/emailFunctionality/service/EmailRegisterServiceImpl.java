@@ -73,10 +73,10 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 
 	@Override
 	public EmailRegistration deleteEmail(long id) {
-		Optional<EmailRegistration> emReg= registerEmailRepository.findById(id);
-		if(!emReg.isEmpty())
+		EmailRegistration emReg= registerEmailRepository.findById(id).get();
+		if(emReg !=null)
 		{
-			if(!emReg.get().isAvailable())
+			if(!emReg.isAvailable())
 				EmailSendServiceImpl.dailyLimitExceptionCounter--;
 			registerEmailRepository.deleteById(id);
 			List<EmailRegistration> emails = getAllEmails();
@@ -87,7 +87,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 				size = emails.size();
 			ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(size);
 			new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec,emails.size());
-			return emReg.get();
+			return emReg;
 		}
 		else
 		{
