@@ -13,7 +13,7 @@ import com.josh.emailFunctionality.entity.EmailStatus;
 public interface IEmailSendService {
 	
 
-	public void sendEmail(EmailRequestDto emailRequestDto) throws Exception;
+	public void sendEmail(EmailEntity emailCustom) throws Exception;
 
 	public EmailEntity saveEmail( EmailRequestDto emailRequestDto);
 	

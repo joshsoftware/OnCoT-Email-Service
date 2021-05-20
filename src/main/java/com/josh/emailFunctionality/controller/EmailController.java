@@ -101,9 +101,12 @@ public class EmailController {
 		if (emailRegisterService.getAllEmails().size() == 0)
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		try {
-			emailService.saveEmail(emailRequestDto);
-		
-			emailService.sendEmail(emailRequestDto);
+			EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
+			System.out.println("Current Email :" +currentEmailEntity.getEmail());
+			System.out.println("Current Token :" +currentEmailEntity.getToken());
+			System.out.println("Current Sender : " +currentEmailEntity.getSender());
+			System.out.println("Current Status : " +currentEmailEntity.getStatus());
+			emailService.sendEmail(currentEmailEntity);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
