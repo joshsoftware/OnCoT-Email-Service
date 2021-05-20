@@ -56,7 +56,7 @@ public class EmailController {
 	ObjectMapper objectMapper;
 
 	@PostMapping("/register")
-	public ResponseEntity<?> registerEmailAccount(@RequestBody EmailRegisterReqeustDto regEmailReqDto) {
+	public ResponseEntity<Response> registerEmailAccount(@RequestBody EmailRegisterReqeustDto regEmailReqDto) {
 		JavaMailSenderImpl mailSenderForTestConnection = new JavaMailSenderImpl();
 		mailSenderForTestConnection.setJavaMailProperties(emailRegisterService.getProperties());
 		mailSenderForTestConnection.setSession(emailRegisterService.getSession(regEmailReqDto));
@@ -73,7 +73,7 @@ public class EmailController {
 	}
 
 	@GetMapping("/emails")
-	public ResponseEntity<?> getRegisteredEmail() {
+	public ResponseEntity<Response> getRegisteredEmail() {
 		Response response = new Response("Success", "Registerd Emails", "", new HashMap<>(),
 				LocalDateTime.now().format(formatter));
 		response.getData().put("emails", emailRegisterService.getAllEmails());
@@ -81,7 +81,7 @@ public class EmailController {
 	}
 
 	@DeleteMapping("/email/{id}")
-	public ResponseEntity<?> deleteEmailAccount(@PathVariable long id) {
+	public ResponseEntity<Response> deleteEmailAccount(@PathVariable long id) {
 		emailRegisterService.deleteEmail(id);
 		Response response = new Response("Success", "Email deleted successfully", "", null,
 				LocalDateTime.now().format(formatter));
@@ -93,19 +93,24 @@ public class EmailController {
 		return emailService.getbyStatus(status);
 	}
 
-	static int tokenCounter = 1;
+	public static int tokenCounter = 1;
 
 	@PostMapping("/email")
-	public ResponseEntity<?> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
+	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
+		
+		
+//			emailRequestDto.setToken("Qwerty"+tokenCounter);
+//			tokenCounter++;
+		
 
 		if (emailRegisterService.getAllEmails().size() == 0)
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		try {
 			EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
-			System.out.println("Current Email :" +currentEmailEntity.getEmail());
-			System.out.println("Current Token :" +currentEmailEntity.getToken());
-			System.out.println("Current Sender : " +currentEmailEntity.getSender());
-			System.out.println("Current Status : " +currentEmailEntity.getStatus());
+//			System.out.println("Current Email :" +currentEmailEntity.getEmail());
+//			System.out.println("Current Token :" +currentEmailEntity.getToken());
+//			System.out.println("Current Sender : " +currentEmailEntity.getSender());
+//			System.out.println("Current Status : " +currentEmailEntity.getStatus());
 			emailService.sendEmail(currentEmailEntity);
 			
 		} catch (Exception e) {
@@ -117,7 +122,7 @@ public class EmailController {
 	}
 
 	@GetMapping("/status")
-	public ResponseEntity<?> getStatusOfEmails(@RequestBody String tkns)
+	public ResponseEntity<Response> getStatusOfEmails(@RequestBody String tkns)
 			throws JsonMappingException, JsonProcessingException {
 		String[] tokens = objectMapper.reader().forType(new TypeReference<String[]>() {
 		}).readValue(tkns);

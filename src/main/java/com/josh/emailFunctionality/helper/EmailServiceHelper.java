@@ -34,6 +34,10 @@ public class EmailServiceHelper {
 
 	@Value("${app.email.subject}")
 	private String subject;
+	
+	public static int tempCount=0;//Remove this
+	
+	public static String failedEmailSender="";
 
 	public static int sendCheckCounter = 0;
 
@@ -61,8 +65,21 @@ public class EmailServiceHelper {
 		email.setSubject(subject);
 		email.setHtmlMsg(templateText);
 		email.addTo(to);
-		email.send();
-		String sender = sendEm.get(sendCheckCounter).getEmail();
+		System.out.println("Sender before : " +email.getFromAddress()+" "+tempCount);
+		try {
+			email.send();
+		}
+		catch(Exception e) {
+			if(e.getCause().toString().contains("com.sun.mail.smtp.SMTPSendFailedException")){
+				failedEmailSender=email.getFromAddress().toString();
+			}
+			throw e;
+		}
+		
+		System.out.println("Sender after : " +email.getFromAddress()+" "+tempCount);
+		tempCount++;
+		//String sender = sendEm.get(sendCheckCounter).getEmail();
+		String sender = email.getFromAddress().toString();
 		sendCheckCounter++;
 		if (sendCheckCounter > sendEm.size() - 1) {
 			sendCheckCounter = 0;

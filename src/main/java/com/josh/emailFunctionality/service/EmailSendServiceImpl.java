@@ -70,13 +70,15 @@ public class EmailSendServiceImpl implements IEmailSendService {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-				} else if (e.getMessage().contains("com.sun.mail.smtp.SMTPSendFailedException")) {
+				} else if (e.getCause().toString().contains("com.sun.mail.smtp.SMTPSendFailedException")) {
 					try {
+						System.out.println("Failed email :"+EmailServiceHelper.failedEmailSender);
 						e.printStackTrace();
 						dailyLimitExceptionCounter++;
-						resetDaiyLimit(senderEmail);
-						changeAvailableStatus(senderEmail, false);
-						if (dailyLimitExceptionCounter < emailsSize) {
+						resetDaiyLimit(EmailServiceHelper.failedEmailSender);
+						changeAvailableStatus(EmailServiceHelper.failedEmailSender, false);
+						if (dailyLimitExceptionCounter <= emailsSize) {
+							System.out.println("Inside core logic of DilyLimit");
 							String sender = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(),
 									emailCustom.getToken());
 							stat = EmailStatus.COMPLETED;
@@ -166,12 +168,13 @@ public class EmailSendServiceImpl implements IEmailSendService {
 				timer.schedule(new TimerTask() {
 					@Override
 					public void run() {
+						System.out.println("InresetLogic");
 						dailyLimitExceptionCounter--;
 						dailyLimitTimestamp = 0;
 						if (emailRegRepo.findByEmail(sender) != null)
 							changeAvailableStatus(sender, true);
 					}
-				}, 60000 * 4);
+				}, 120000);
 			}
 		});
 		th.start();
