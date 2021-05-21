@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
 import com.josh.emailFunctionality.entity.EmailRegistration;
+import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
 
 import freemarker.template.Configuration;
@@ -22,6 +24,9 @@ public class EmailServiceHelper {
 
 	@Autowired
 	private IEmailRegisterService emailRegisterService;
+	
+	@Autowired
+	private RegisterEmailRepository tempRepo;
 
 	@Autowired
 	private Configuration configuation;
@@ -42,14 +47,21 @@ public class EmailServiceHelper {
 	public static int sendCheckCounter = 0;
 
 	public String sendEmailHelper(String to, String token) throws Exception {
-		List<EmailRegistration> sendEm = emailRegisterService.getAllEmails();
-		while (!sendEm.get(sendCheckCounter).isAvailable()) {
-
-			sendCheckCounter++;
-			if (sendCheckCounter == (sendEm.size()))
-				sendCheckCounter = 0;
-			System.out.println("sendCheckCounter - " + sendCheckCounter);
-		}
+//		List<EmailRegistration> sendEm = emailRegisterService.getAllEmails();//Get only those emails that have staus as avilable
+		List<EmailRegistration> sendEm = tempRepo.findAllIsAvailable();
+//		System.out.println("SendEm size" + sendEm.size());
+//		if(sendEm.isEmpty()) {
+//			System.out.println("Inside empty logic");
+//			throw new NoEmailAccountsRegisteredException("Daily Limit of all emails exceeded");
+//		}
+//		while (sendEm.get(sendCheckCounter).isAvailable()) {
+//
+//			sendCheckCounter++;                            //Commented bu Chinmay on Friday
+//			if (sendCheckCounter == (sendEm.size())) {
+//				sendCheckCounter = 0;
+//			System.out.println("sendCheckCounter - " + sendCheckCounter);
+//			}
+//		}
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(587);
@@ -82,8 +94,9 @@ public class EmailServiceHelper {
 		String sender = email.getFromAddress().toString();
 		sendCheckCounter++;
 		if (sendCheckCounter > sendEm.size() - 1) {
-			sendCheckCounter = 0;
+			sendCheckCounter = 0;         //commeted by me on friday
 		}
+		
 		return sender;
 	}
 

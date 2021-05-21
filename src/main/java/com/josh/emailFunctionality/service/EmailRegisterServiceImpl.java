@@ -48,6 +48,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return emailReg;
 	}
 
+
 	public Properties getProperties() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");

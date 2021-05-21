@@ -34,6 +34,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	public static int sendCheckCounter = 0;
 	public static int dailyLimitExceptionCounter = 0;
 	public static int emailsSize = 0;
+	public static boolean areSendersAvailable=true;
 
 	public static int limitCounter = 0;
 	public static long dailyLimitTimestamp;
@@ -49,8 +50,10 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	@Async("CustomThreadConfig")
 	public void sendEmail(EmailEntity emailCustom) throws Exception {
 
-		if (emailRegRepo.findAllIsAvailable().size() == 0)
+		if (emailRegRepo.findAllIsAvailable().size() == 0) {
 			updateEmail(emailCustom.getToken(), EmailStatus.FAILED, "");
+			areSendersAvailable=false;
+		}
 		else {
 			EmailStatus stat;
 			String senderEmail = "";
@@ -169,9 +172,11 @@ public class EmailSendServiceImpl implements IEmailSendService {
 					@Override
 					public void run() {
 						System.out.println("InresetLogic");
-						dailyLimitExceptionCounter--;
+						//dailyLimitExceptionCounter--;
+						
 						dailyLimitTimestamp = 0;
 						if (emailRegRepo.findByEmail(sender) != null)
+							areSendersAvailable=true;
 							changeAvailableStatus(sender, true);
 					}
 				}, 120000);
