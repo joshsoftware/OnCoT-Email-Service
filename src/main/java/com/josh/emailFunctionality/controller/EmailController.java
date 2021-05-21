@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josh.emailFunctionality.Exception.AccountNotFoundException;
 import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
 import com.josh.emailFunctionality.common.Response;
+import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
 import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
@@ -94,25 +95,36 @@ public class EmailController {
 	}
 
 	public static int tokenCounter = 1;
+	
+	@PostMapping("/secondary")
+	public ResponseEntity<Response> sendAllEmails(@RequestBody EmailArrayRequestDto emailArrayRequestDto){
+		
+		//System.out.println("New implementation : "+ emailArrayRequestDto);
+		for(EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
+			if (emailRegisterService.getAllEmails().size() == 0)
+				throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
+			try {
+				EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
+				emailService.sendEmail(currentEmailEntity);		
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		Response response = new Response("Success", "Email sending is in progress", "", null,
+				LocalDateTime.now().format(formatter));
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+		
+	}
 
 	@PostMapping("/email")
-	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
-		
-		
-			emailRequestDto.setToken("Qwerty"+tokenCounter);
-			tokenCounter++;
-		
-
+	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {	
+//			emailRequestDto.setToken("Qwerty"+tokenCounter);
+//			tokenCounter++;
 		if (emailRegisterService.getAllEmails().size() == 0)
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		try {
 			EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
-//			System.out.println("Current Email :" +currentEmailEntity.getEmail());
-//			System.out.println("Current Token :" +currentEmailEntity.getToken());
-//			System.out.println("Current Sender : " +currentEmailEntity.getSender());
-//			System.out.println("Current Status : " +currentEmailEntity.getStatus());
-			emailService.sendEmail(currentEmailEntity);
-			
+			emailService.sendEmail(currentEmailEntity);		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -84,6 +84,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 						dailyLimitExceptionCounter++;
 						resetDaiyLimit(EmailServiceHelper.failedEmailSender);
 						changeAvailableStatus(EmailServiceHelper.failedEmailSender, false);
+						//if
 						if (dailyLimitExceptionCounter <= emailsSize) {
 							System.out.println("Inside core logic of DilyLimit");
 							String sender = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(),
@@ -97,7 +98,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-				} else if (e.getMessage().contains("com.sun.mail.util.MailConnectException")) {
+				} else if (e.getCause().toString().contains("com.sun.mail.util.MailConnectException")) {
 					try {
 						scheduledThreadPoolExecutor.awaitTermination(10, TimeUnit.MINUTES);
 						senderEmail = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(),
@@ -107,7 +108,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
-				} else if (e.getMessage().contains("com.sun.mail.smtp.SMTPAddressFailedException")) {
+				} else if (e.getCause().toString().contains("com.sun.mail.smtp.SMTPAddressFailedException")) {
 					updateEmail(emailCustom.getToken(), EmailStatus.FAILED, "");
 				} else {
 					e.printStackTrace();
