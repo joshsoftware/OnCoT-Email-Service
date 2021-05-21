@@ -35,6 +35,8 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	public static int dailyLimitExceptionCounter = 0;
 	public static int emailsSize = 0;
 	public static boolean areSendersAvailable=true;
+	
+	public static int tempCounterCount=0;
 
 	public static int limitCounter = 0;
 	public static long dailyLimitTimestamp;
@@ -60,8 +62,10 @@ public class EmailSendServiceImpl implements IEmailSendService {
 			try {
 				String sender = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(), emailCustom.getToken());
 				stat = EmailStatus.COMPLETED;
+				System.out.println("Emails Sent Count : "+ tempCounterCount);
 				emailCustom.setSender(sender);
 				updateEmail(emailCustom.getToken(), stat, sender);
+				tempCounterCount++;
 			} catch (Exception e) {
 				if (e.getCause() instanceof javax.mail.AuthenticationFailedException) {
 					try {
@@ -179,7 +183,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 							areSendersAvailable=true;
 							changeAvailableStatus(sender, true);
 					}
-				}, 120000);
+				}, 60*60*1000*1);
 			}
 		});
 		th.start();

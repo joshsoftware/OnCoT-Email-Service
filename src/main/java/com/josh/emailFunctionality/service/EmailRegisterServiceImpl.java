@@ -45,6 +45,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		List<EmailRegistration> emails = getAllEmails();
 		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
 		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec,emails.size());
+		EmailSendServiceImpl.areSendersAvailable=true;
 		return emailReg;
 	}
 

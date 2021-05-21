@@ -99,8 +99,8 @@ public class EmailController {
 	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
 		
 		
-//			emailRequestDto.setToken("Qwerty"+tokenCounter);
-//			tokenCounter++;
+			emailRequestDto.setToken("Qwerty"+tokenCounter);
+			tokenCounter++;
 		
 
 		if (emailRegisterService.getAllEmails().size() == 0)
