@@ -2,7 +2,6 @@ package com.josh.emailFunctionality.service;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,6 +21,8 @@ import com.josh.emailFunctionality.helper.EmailServiceHelper;
 import com.josh.emailFunctionality.repository.EmailSendRespository;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 
+//This Service deals with EmailEntity.java
+//This handles the functionality of sending emails to registered candidater
 @Service
 @Transactional
 public class EmailSendServiceImpl implements IEmailSendService {
@@ -36,6 +37,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	public static boolean areSendersAvailable = true;
 	public static long dailyLimitTimestamp;
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	private Timer timer = new Timer();
 
 	@Autowired
 	private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
@@ -43,6 +45,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	@Autowired
 	private EmailServiceHelper emailServiceHelper;
 
+	//This method is used to send emails to the registered candidates
 	@Override
 	@Async("CustomThreadConfig")
 	public void sendEmail(EmailEntity emailCustom) throws Exception {
@@ -111,6 +114,8 @@ public class EmailSendServiceImpl implements IEmailSendService {
 		}
 	}
 
+	
+	//This method is used to save the emails of candidates in the database
 	public EmailEntity saveEmail(EmailRequestDto emailRequestDto) {
 		EmailEntity alreadyExist = emailRepository.findByToken(emailRequestDto.getToken());
 		if (alreadyExist == null) {
@@ -126,12 +131,14 @@ public class EmailSendServiceImpl implements IEmailSendService {
 
 	}
 
+	//This is used to change the staus of pending emails
 	public void changeAvailableStatus(String email, boolean status) {
 		EmailRegistration emailReg = emailRegRepo.findByEmail(email);
 		emailReg.setAvailable(status);
 		emailRegRepo.save(emailReg);
 	}
 
+	//Used to update the emails that are in database
 	public EmailEntity updateEmail(String token, EmailStatus status, String sender) {
 		EmailEntity updateEmail = emailRepository.findByToken(token);
 		updateEmail.setStatus(status);
@@ -140,6 +147,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 		return updateEmail;
 	}
 
+	//To get the status of emails from database
 	public Map<String, EmailStatus> getAllStatusByToken(String[] tkns) {
 		Map<String, EmailStatus> emailEntities = new HashMap<>();
 		for (String token : tkns) {
@@ -148,13 +156,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 		return emailEntities;
 	}
 
-	@Override
-	public List<EmailEntity> getbyStatus(EmailStatus status) {
-		return emailRepository.findByStatus(status);
-	}
-
-	private Timer timer = new Timer();
-
+	//To reset the daily limit
 	public void resetDailyLimit(String sender) {
 		Thread th = new Thread(new Runnable() {
 			@Override

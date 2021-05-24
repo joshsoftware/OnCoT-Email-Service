@@ -51,6 +51,7 @@ public class EmailController {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	//This api is used to register sender emails
 	@PostMapping("/register")
 	public ResponseEntity<Response> registerEmailAccount(@RequestBody EmailRegisterRequestDto regEmailReqDto) {
 		JavaMailSenderImpl mailSenderForTestConnection = new JavaMailSenderImpl();
@@ -67,6 +68,7 @@ public class EmailController {
 		}
 	}
 
+	//This api is used to get the list of registered sender emails
 	@GetMapping("/emails")
 	public ResponseEntity<Response> getRegisteredEmail() {
 		Response response = new Response("Success", "Registerd Emails", "", new HashMap<>(),
@@ -75,6 +77,7 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	//This api is used to delete the sender emails by id
 	@DeleteMapping("/email/{id}")
 	public ResponseEntity<Response> deleteEmailAccount(@PathVariable long id) {
 		emailRegisterService.deleteEmail(id);
@@ -83,6 +86,7 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	//This api is used to send emails to candidate as an array of emails and token object
 	@PostMapping("/secondary")
 	public ResponseEntity<Response> sendAllEmails(@RequestBody EmailArrayRequestDto emailArrayRequestDto) {
 		for (EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
@@ -100,6 +104,7 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
+	//This api is used to send emails to candidates per request
 	@PostMapping("/email")
 	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
 		if (emailRegisterService.getAllEmails().size() == 0)
@@ -115,6 +120,7 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
+	//This api is used to get the status of emails
 	@GetMapping("/status")
 	public ResponseEntity<Response> getStatusOfEmails(@RequestBody String tkns)
 			throws JsonMappingException, JsonProcessingException {

@@ -19,6 +19,7 @@ import com.josh.emailFunctionality.helper.EmailRegisterHelper;
 import com.josh.emailFunctionality.helper.EncryptionDecryptionHelper;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 
+//This service deals with sender emails and EmailRegistration.java
 @Service
 @Transactional
 public class EmailRegisterServiceImpl implements IEmailRegisterService {
@@ -32,12 +33,14 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	@Autowired
 	private EncryptionDecryptionHelper helper;
 
+	//This method is used to get all sender emails from the database
 	@Override
 	public List<EmailRegistration> getAllEmails() {
 		List<EmailRegistration> availableEmails = registerEmailRepository.findAll();
 		return availableEmails;
 	}
 
+	//This method is used to add new sender emails in the database
 	@Override
 	public EmailRegistration addEmail(EmailRegisterRequestDto regEmailReqDto) {
 		regEmailReqDto.setPassword(helper.encrypt(regEmailReqDto.getPassword()));
@@ -49,6 +52,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return emailReg;
 	}
 
+	//This method is to get properties that would be used in session
 	public Properties getProperties() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -61,6 +65,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return props;
 	}
 
+	//This method is used to get the session for testing the smtp server connection
 	public Session getSession(EmailRegisterRequestDto regEmailReqDto) {
 		Session session = Session.getInstance(getProperties(), new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -70,6 +75,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return session;
 	}
 
+	//This method is used to delete the sender emails from the database
 	@Override
 	public EmailRegistration deleteEmail(long id) {
 		EmailRegistration emReg = registerEmailRepository.findById(id).get();

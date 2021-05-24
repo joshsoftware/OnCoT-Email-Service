@@ -1,6 +1,5 @@
 package com.josh.emailFunctionality.service;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -18,8 +17,6 @@ public interface IEmailSendService {
 	public EmailEntity saveEmail( EmailRequestDto emailRequestDto);
 	
 	public EmailEntity updateEmail(String token,EmailStatus status,String sender);
-	
-	public List<EmailEntity> getbyStatus(EmailStatus status);
 	
 	public Map<String,EmailStatus> getAllStatusByToken(String[] tkns);
 
