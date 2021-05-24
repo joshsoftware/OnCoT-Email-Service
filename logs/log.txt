@@ -1,0 +1,28 @@
+2021-05-24 15:27:39.557  INFO 9566 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Starting EmailFunctionalityApplication using Java 1.8.0_281 on hp-HP-ProBook-430-G4 with PID 9566 (/home/hp/GitEmailFunc/Oncot-Email-Functionality-SpringBoot/target/classes started by hp in /home/hp/GitEmailFunc/Oncot-Email-Functionality-SpringBoot)
+2021-05-24 15:27:39.559 DEBUG 9566 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Running with Spring Boot v2.4.5, Spring v5.3.6
+2021-05-24 15:27:39.559  INFO 9566 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : No active profile set, falling back to default profiles: default
+2021-05-24 15:27:39.614  INFO 9566 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-05-24 15:27:39.614  INFO 9566 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-05-24 15:27:40.736  INFO 9566 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-05-24 15:27:40.794  INFO 9566 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 2 JPA repository interfaces.
+2021-05-24 15:27:41.384  INFO 9566 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-05-24 15:27:41.391  INFO 9566 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-05-24 15:27:41.391  INFO 9566 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.45]
+2021-05-24 15:27:41.439  INFO 9566 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-05-24 15:27:41.439  INFO 9566 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1824 ms
+2021-05-24 15:27:41.633  INFO 9566 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-05-24 15:27:41.677  INFO 9566 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.30.Final
+2021-05-24 15:27:41.781  INFO 9566 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-05-24 15:27:41.926  INFO 9566 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-05-24 15:27:42.242  INFO 9566 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-05-24 15:27:42.253  INFO 9566 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+2021-05-24 15:27:42.786  INFO 9566 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-05-24 15:27:42.793  INFO 9566 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 15:27:42.825  INFO 9566 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-05-24 15:27:43.587  WARN 9566 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-05-24 15:27:44.181  INFO 9566 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-05-24 15:27:44.415  INFO 9566 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Started EmailFunctionalityApplication in 5.174 seconds (JVM running for 5.773)
+2021-05-24 15:28:16.490  INFO 9566 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2021-05-24 15:28:16.526  INFO 9566 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-05-24 15:28:16.538  INFO 9566 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-05-24 15:28:16.569  INFO 9566 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

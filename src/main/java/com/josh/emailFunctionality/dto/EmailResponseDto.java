@@ -10,9 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailResponseDto {
-	
+
 	private String message;
-	
+
 	private Integer successStatus;
 
 }

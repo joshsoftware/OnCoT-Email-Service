@@ -17,34 +17,34 @@ import com.josh.emailFunctionality.common.Response;
 @ControllerAdvice
 public class CentralExceptionalHandler {
 	private DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 	@ExceptionHandler(AccountNotFoundException.class)
-	public ResponseEntity<?> handleAccountNotFoundException(Exception ex, WebRequest rq)
-	{
+	public ResponseEntity<?> handleAccountNotFoundException(Exception ex, WebRequest rq) {
 		Response err = new Response();
 		err.setStatus("Error");
 		err.setError(ex.getMessage());
 		err.setTimeStamp(LocalDateTime.now().format(format));
 		return new ResponseEntity<Object>(err, HttpStatus.UNAUTHORIZED);
 	}
+
 	@ExceptionHandler(org.postgresql.util.PSQLException.class)
-	public ResponseEntity<?> handleBadCredentialsException(Exception ex, WebRequest rq)
-	{
+	public ResponseEntity<?> handleBadCredentialsException(Exception ex, WebRequest rq) {
 		Response err = new Response();
 		err.setStatus("Error");
 		err.setError("Email account already exist");
 		return new ResponseEntity<Object>(err, HttpStatus.UNAUTHORIZED);
 	}
+
 	@ExceptionHandler(EmptyResultDataAccessException.class)
-	public ResponseEntity<?> handleEmailNotFoundException(Exception ex, WebRequest rq)
-	{
+	public ResponseEntity<?> handleEmailNotFoundException(Exception ex, WebRequest rq) {
 		Response err = new Response();
 		err.setStatus("Error");
 		err.setError("Email account not found with given id");
 		return new ResponseEntity<Object>(err, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
 	@ExceptionHandler(NoEmailAccountsRegisteredException.class)
-	public ResponseEntity<?> handleNoEmailRegistedException(Exception ex, WebRequest rq)
-	{
+	public ResponseEntity<?> handleNoEmailRegistedException(Exception ex, WebRequest rq) {
 		Response err = new Response();
 		err.setStatus("Error");
 		err.setError(ex.getMessage());

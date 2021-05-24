@@ -12,7 +12,6 @@ public class FilterConfig {
 	 public FilterRegistrationBean < CustomUrlRequestLimiterFilter > filterRegistrationBean() {
 	  FilterRegistrationBean < CustomUrlRequestLimiterFilter > registrationBean = new FilterRegistrationBean<CustomUrlRequestLimiterFilter>();
 	  CustomUrlRequestLimiterFilter customURLFilter = new CustomUrlRequestLimiterFilter();
-
 	  registrationBean.setFilter(customURLFilter);
 	  registrationBean.addUrlPatterns("/api/v1/email");
 	  return registrationBean;

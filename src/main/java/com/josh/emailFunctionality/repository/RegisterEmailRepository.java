@@ -12,6 +12,8 @@ import com.josh.emailFunctionality.entity.EmailRegistration;
 public interface RegisterEmailRepository extends JpaRepository<EmailRegistration, Long> {
 	
 	public EmailRegistration findByEmail(String email);
+	
 	@Query("select e from EmailRegistration e where e.isAvailable=true")
 	public List<EmailRegistration> findAllIsAvailable();
+
 }

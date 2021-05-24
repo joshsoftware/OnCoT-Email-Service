@@ -1,7 +1,6 @@
 package com.josh.emailFunctionality.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.josh.emailFunctionality.configuration.ThreadPoolTaskSchedulerConfig;
-import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
+import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.helper.EmailRegisterHelper;
 import com.josh.emailFunctionality.helper.EncryptionDecryptionHelper;
@@ -25,12 +24,13 @@ import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 public class EmailRegisterServiceImpl implements IEmailRegisterService {
 
 	@Autowired
-	RegisterEmailRepository registerEmailRepository;
+	private RegisterEmailRepository registerEmailRepository;
 
 	@Autowired
-	EmailRegisterHelper emailRegHelper;
+	private EmailRegisterHelper emailRegHelper;
+
 	@Autowired
-	EncryptionDecryptionHelper helper;
+	private EncryptionDecryptionHelper helper;
 
 	@Override
 	public List<EmailRegistration> getAllEmails() {
@@ -39,16 +39,15 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	}
 
 	@Override
-	public EmailRegistration addEmail(EmailRegisterReqeustDto regEmailReqDto) {
+	public EmailRegistration addEmail(EmailRegisterRequestDto regEmailReqDto) {
 		regEmailReqDto.setPassword(helper.encrypt(regEmailReqDto.getPassword()));
 		EmailRegistration emailReg = registerEmailRepository.save(new EmailRegistration(regEmailReqDto));
 		List<EmailRegistration> emails = getAllEmails();
 		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
-		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec,emails.size());
-		EmailSendServiceImpl.areSendersAvailable=true;
+		new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec, emails.size());
+		EmailSendServiceImpl.areSendersAvailable = true;
 		return emailReg;
 	}
-
 
 	public Properties getProperties() {
 		Properties props = new Properties();
@@ -62,9 +61,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return props;
 	}
 
-	public Session getSession(EmailRegisterReqeustDto regEmailReqDto) {
-		System.out.println(regEmailReqDto.getEmail() + "   " + regEmailReqDto.getPassword());
-
+	public Session getSession(EmailRegisterRequestDto regEmailReqDto) {
 		Session session = Session.getInstance(getProperties(), new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(regEmailReqDto.getEmail(), regEmailReqDto.getPassword());
@@ -75,24 +72,20 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 
 	@Override
 	public EmailRegistration deleteEmail(long id) {
-		EmailRegistration emReg= registerEmailRepository.findById(id).get();
-		if(emReg !=null)
-		{
-			if(!emReg.isAvailable())
-				EmailSendServiceImpl.dailyLimitExceptionCounter--;
+		EmailRegistration emReg = registerEmailRepository.findById(id).get();
+		if (emReg != null) {
 			registerEmailRepository.deleteById(id);
 			List<EmailRegistration> emails = getAllEmails();
 			int size;
-			if(emails.size()==0)
+			if (emails.size() == 0) {
 				size = 1;
-			else
+			} else {
 				size = emails.size();
+			}
 			ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(size);
-			new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec,emails.size());
+			new ThreadPoolTaskSchedulerConfig().reintialiseBean(newScheduledThreadPoolExec, emails.size());
 			return emReg;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}

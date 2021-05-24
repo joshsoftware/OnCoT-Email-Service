@@ -33,7 +33,7 @@ public class EmailEntity {
 
 	@Column(name = "status")
 	private EmailStatus status;
-	
+
 	@Column(name = "sent_by")
 	private String sender;
 

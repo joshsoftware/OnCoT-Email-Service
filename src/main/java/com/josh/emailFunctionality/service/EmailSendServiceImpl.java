@@ -31,41 +31,32 @@ public class EmailSendServiceImpl implements IEmailSendService {
 
 	@Autowired
 	private RegisterEmailRepository emailRegRepo;
-	public static int sendCheckCounter = 0;
-	public static int dailyLimitExceptionCounter = 0;
-	public static int emailsSize = 0;
-	public static boolean areSendersAvailable=true;
-	
-	public static int tempCounterCount=0;
 
-	public static int limitCounter = 0;
+	public static int sendCheckCounter = 0;
+	public static boolean areSendersAvailable = true;
 	public static long dailyLimitTimestamp;
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
 	@Autowired
-	ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
+	private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
 
 	@Autowired
-	EmailServiceHelper emailServiceHelper;
+	private EmailServiceHelper emailServiceHelper;
 
 	@Override
 	@Async("CustomThreadConfig")
 	public void sendEmail(EmailEntity emailCustom) throws Exception {
-
 		if (emailRegRepo.findAllIsAvailable().size() == 0) {
 			updateEmail(emailCustom.getToken(), EmailStatus.FAILED, "");
-			areSendersAvailable=false;
-		}
-		else {
+			areSendersAvailable = false;
+		} else {
 			EmailStatus stat;
 			String senderEmail = "";
 			try {
 				String sender = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(), emailCustom.getToken());
 				stat = EmailStatus.COMPLETED;
-				System.out.println("Emails Sent Count : "+ tempCounterCount);
 				emailCustom.setSender(sender);
 				updateEmail(emailCustom.getToken(), stat, sender);
-				tempCounterCount++;
 			} catch (Exception e) {
 				if (e.getCause() instanceof javax.mail.AuthenticationFailedException) {
 					try {
@@ -79,14 +70,11 @@ public class EmailSendServiceImpl implements IEmailSendService {
 					}
 				} else if (e.getCause().toString().contains("com.sun.mail.smtp.SMTPSendFailedException")) {
 					try {
-						System.out.println("Failed email :"+EmailServiceHelper.failedEmailSender);
+						System.out.println("Failed email :" + EmailServiceHelper.failedEmailSender);
 						e.printStackTrace();
-						dailyLimitExceptionCounter++;
-						resetDaiyLimit(EmailServiceHelper.failedEmailSender);
+						resetDailyLimit(EmailServiceHelper.failedEmailSender);
 						changeAvailableStatus(EmailServiceHelper.failedEmailSender, false);
-						//if
-						if (dailyLimitExceptionCounter <= emailsSize) {
-							System.out.println("Inside core logic of DilyLimit");
+						if (emailRegRepo.findAllIsAvailable().size() != 0) {
 							String sender = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(),
 									emailCustom.getToken());
 							stat = EmailStatus.COMPLETED;
@@ -167,24 +155,19 @@ public class EmailSendServiceImpl implements IEmailSendService {
 
 	private Timer timer = new Timer();
 
-	public void resetDaiyLimit(String sender) {
-
+	public void resetDailyLimit(String sender) {
 		Thread th = new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				timer.schedule(new TimerTask() {
 					@Override
 					public void run() {
-						System.out.println("InresetLogic");
-						//dailyLimitExceptionCounter--;
-						
 						dailyLimitTimestamp = 0;
 						if (emailRegRepo.findByEmail(sender) != null)
-							areSendersAvailable=true;
-							changeAvailableStatus(sender, true);
+							areSendersAvailable = true;
+						changeAvailableStatus(sender, true);
 					}
-				}, 60*60*1000*1);
+				}, 60 * 60 * 1000 * 24);
 			}
 		});
 		th.start();

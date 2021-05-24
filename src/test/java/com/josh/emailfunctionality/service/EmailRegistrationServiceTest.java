@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
+import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
@@ -34,7 +34,7 @@ public class EmailRegistrationServiceTest {
 		availableEmails.add(new EmailRegistration(1l, "test@gmail.com", "test",true));
 		return availableEmails;
 	}
-	public EmailRegistration getEmailRegistration(EmailRegisterReqeustDto emRDto)
+	public EmailRegistration getEmailRegistration(EmailRegisterRequestDto emRDto)
 	{
 		return new EmailRegistration(emRDto);
 	}
@@ -50,7 +50,7 @@ public class EmailRegistrationServiceTest {
 	@Test 
 	public void addEmailTest()
 	{
-		EmailRegisterReqeustDto regEmailReqDto = new EmailRegisterReqeustDto("test@gmail.com", "test");
+		EmailRegisterRequestDto regEmailReqDto = new EmailRegisterRequestDto("test@gmail.com", "test");
 		when(emailRegService.addEmail(regEmailReqDto)).thenReturn(getEmailRegistration(regEmailReqDto));
 		EmailRegistration emailRegistration = emailRegService.addEmail(regEmailReqDto);
 		assertEquals(emailRegistration.getEmail(), regEmailReqDto.getEmail());

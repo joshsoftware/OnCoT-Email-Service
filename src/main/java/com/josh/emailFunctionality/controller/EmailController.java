@@ -3,9 +3,7 @@ package com.josh.emailFunctionality.controller;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import javax.mail.MessagingException;
 
@@ -30,7 +28,7 @@ import com.josh.emailFunctionality.Exception.AccountNotFoundException;
 import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
 import com.josh.emailFunctionality.common.Response;
 import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
-import com.josh.emailFunctionality.dto.EmailRegisterReqeustDto;
+import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailStatus;
@@ -45,19 +43,16 @@ public class EmailController {
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	@Autowired
-	IEmailSendService emailService;
+	private IEmailSendService emailService;
 
 	@Autowired
-	IEmailRegisterService emailRegisterService;
+	private IEmailRegisterService emailRegisterService;
 
 	@Autowired
-	ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
-
-	@Autowired
-	ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
 
 	@PostMapping("/register")
-	public ResponseEntity<Response> registerEmailAccount(@RequestBody EmailRegisterReqeustDto regEmailReqDto) {
+	public ResponseEntity<Response> registerEmailAccount(@RequestBody EmailRegisterRequestDto regEmailReqDto) {
 		JavaMailSenderImpl mailSenderForTestConnection = new JavaMailSenderImpl();
 		mailSenderForTestConnection.setJavaMailProperties(emailRegisterService.getProperties());
 		mailSenderForTestConnection.setSession(emailRegisterService.getSession(regEmailReqDto));
@@ -70,7 +65,6 @@ public class EmailController {
 		} catch (MessagingException e) {
 			throw new AccountNotFoundException("Invalid Email/Password");
 		}
-
 	}
 
 	@GetMapping("/emails")
@@ -89,23 +83,14 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	@GetMapping("/findByStatus/{status}")
-	public List<EmailEntity> getStatus(@PathVariable EmailStatus status) {
-		return emailService.getbyStatus(status);
-	}
-
-	public static int tokenCounter = 1;
-	
 	@PostMapping("/secondary")
-	public ResponseEntity<Response> sendAllEmails(@RequestBody EmailArrayRequestDto emailArrayRequestDto){
-		
-		//System.out.println("New implementation : "+ emailArrayRequestDto);
-		for(EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
+	public ResponseEntity<Response> sendAllEmails(@RequestBody EmailArrayRequestDto emailArrayRequestDto) {
+		for (EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
 			if (emailRegisterService.getAllEmails().size() == 0)
 				throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 			try {
 				EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
-				emailService.sendEmail(currentEmailEntity);		
+				emailService.sendEmail(currentEmailEntity);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -113,18 +98,15 @@ public class EmailController {
 		Response response = new Response("Success", "Email sending is in progress", "", null,
 				LocalDateTime.now().format(formatter));
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
-		
 	}
 
 	@PostMapping("/email")
-	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {	
-//			emailRequestDto.setToken("Qwerty"+tokenCounter);
-//			tokenCounter++;
+	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
 		if (emailRegisterService.getAllEmails().size() == 0)
 			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 		try {
 			EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
-			emailService.sendEmail(currentEmailEntity);		
+			emailService.sendEmail(currentEmailEntity);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -144,5 +126,4 @@ public class EmailController {
 		response.getData().put("Status", emailStatus);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-
 }

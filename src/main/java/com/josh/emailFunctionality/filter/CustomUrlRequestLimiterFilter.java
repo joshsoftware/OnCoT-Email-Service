@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.josh.emailFunctionality.helper.EmailServiceHelper;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 import com.josh.emailFunctionality.service.EmailSendServiceImpl;
 
@@ -26,15 +25,13 @@ public class CustomUrlRequestLimiterFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("Intercepte by filters");
-		System.out.println("Fag : "+EmailSendServiceImpl.areSendersAvailable);
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		//System.out.println("Size : "+emailRegrepo.findAllIsAvailable());
-		if (EmailSendServiceImpl.areSendersAvailable) {  //!emailRegrepo.findAllIsAvailable().isEmpty()		
+		if (EmailSendServiceImpl.areSendersAvailable) {
 			chain.doFilter(request, response);
-		} else {
-			response.sendError(500, "Daily Quota Exceeded");
+		} 
+		else {
+			response.sendError(422, "Daily Quota Exceeded");
 		}
 	}
 

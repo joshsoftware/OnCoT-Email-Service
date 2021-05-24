@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmailRequestDto {
-	
+
 	private String email;
-	
+
 	private String token;
 
 }
