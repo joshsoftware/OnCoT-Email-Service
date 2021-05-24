@@ -1,12 +1,7 @@
 package com.josh.emailFunctionality.service;
 
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +38,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	//This method is used to add new sender emails in the database
 	@Override
 	public EmailRegistration addEmail(EmailRegisterRequestDto regEmailReqDto) {
+		emailRegHelper.testEmailConnection(regEmailReqDto);		
 		regEmailReqDto.setPassword(helper.encrypt(regEmailReqDto.getPassword()));
 		EmailRegistration emailReg = registerEmailRepository.save(new EmailRegistration(regEmailReqDto));
 		List<EmailRegistration> emails = getAllEmails();
@@ -52,28 +48,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return emailReg;
 	}
 
-	//This method is to get properties that would be used in session
-	public Properties getProperties() {
-		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		props.put("mail.smtp.stattls.enabled", "true");
-		return props;
-	}
 
-	//This method is used to get the session for testing the smtp server connection
-	public Session getSession(EmailRegisterRequestDto regEmailReqDto) {
-		Session session = Session.getInstance(getProperties(), new Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(regEmailReqDto.getEmail(), regEmailReqDto.getPassword());
-			}
-		});
-		return session;
-	}
 
 	//This method is used to delete the sender emails from the database
 	@Override

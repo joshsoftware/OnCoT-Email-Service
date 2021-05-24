@@ -151,7 +151,16 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	public Map<String, EmailStatus> getAllStatusByToken(String[] tkns) {
 		Map<String, EmailStatus> emailEntities = new HashMap<>();
 		for (String token : tkns) {
-			emailEntities.put(token, emailRepository.findByToken(token).getStatus());
+		   EmailEntity emailEntity = emailRepository.findByToken(token);
+			if(emailEntity != null)
+			{
+				emailEntities.put(token,emailEntity.getStatus());
+			}
+			else
+			{
+				emailEntities.put(token, EmailStatus.NOTFOUND);
+			}
+		   
 		}
 		return emailEntities;
 	}
