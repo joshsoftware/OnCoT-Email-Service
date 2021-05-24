@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
-import com.josh.emailFunctionality.service.IEmailRegisterService;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -22,9 +20,6 @@ import freemarker.template.Template;
 @Service
 public class EmailServiceHelper {
 
-	@Autowired
-	private IEmailRegisterService emailRegisterService;
-	
 	@Autowired
 	private RegisterEmailRepository tempRepo;
 
@@ -39,29 +34,13 @@ public class EmailServiceHelper {
 
 	@Value("${app.email.subject}")
 	private String subject;
-	
-	public static int tempCount=0;//Remove this
-	
-	public static String failedEmailSender="";
+
+	public static String failedEmailSender = "";
 
 	public static int sendCheckCounter = 0;
 
 	public String sendEmailHelper(String to, String token) throws Exception {
-//		List<EmailRegistration> sendEm = emailRegisterService.getAllEmails();//Get only those emails that have staus as avilable
 		List<EmailRegistration> sendEm = tempRepo.findAllIsAvailable();
-//		System.out.println("SendEm size" + sendEm.size());
-//		if(sendEm.isEmpty()) {
-//			System.out.println("Inside empty logic");
-//			throw new NoEmailAccountsRegisteredException("Daily Limit of all emails exceeded");
-//		}
-//		while (sendEm.get(sendCheckCounter).isAvailable()) {
-//
-//			sendCheckCounter++;                            //Commented bu Chinmay on Friday
-//			if (sendCheckCounter == (sendEm.size())) {
-//				sendCheckCounter = 0;
-//			System.out.println("sendCheckCounter - " + sendCheckCounter);
-//			}
-//		}
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(587);
@@ -77,26 +56,19 @@ public class EmailServiceHelper {
 		email.setSubject(subject);
 		email.setHtmlMsg(templateText);
 		email.addTo(to);
-		System.out.println("Sender before : " +email.getFromAddress()+" "+tempCount);
 		try {
 			email.send();
-		}
-		catch(Exception e) {
-			if(e.getCause().toString().contains("com.sun.mail.smtp.SMTPSendFailedException")){
-				failedEmailSender=email.getFromAddress().toString();
+		} catch (Exception e) {
+			if (e.getCause().toString().contains("com.sun.mail.smtp.SMTPSendFailedException")) {
+				failedEmailSender = email.getFromAddress().toString();
 			}
 			throw e;
 		}
-		
-		System.out.println("Sender after : " +email.getFromAddress()+" "+tempCount);
-		tempCount++;
-		//String sender = sendEm.get(sendCheckCounter).getEmail();
 		String sender = email.getFromAddress().toString();
 		sendCheckCounter++;
 		if (sendCheckCounter > sendEm.size() - 1) {
-			sendCheckCounter = 0;         //commeted by me on friday
+			sendCheckCounter = 0;
 		}
-		
 		return sender;
 	}
 
