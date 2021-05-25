@@ -5,7 +5,13 @@
 <body>
 <p> Hi Candidate</p>
 <p>
-  You have been invited to take coding round by <b>Josh Software Pvt Ltd</b>.
+  You have been invited to take coding round by <b>${organization}</b>.
+  <p>${organization}</p>
+    <p>${drive_name}</p>
+      <p>${start_time?date} - ${start_time?time}</p>
+        <p>${end_time?date} - ${end_time?time}</p>
+
+
 </p>
 </br>
 
@@ -43,5 +49,9 @@ Regards,
 <br>
 Team Josh Software Pune.
 </p>
+
+    <#list hr_contacts?keys as key> 
+    <p>${key} : ${hr_contacts[key]} </p>
+	</#list> 
 </body>
 </html>

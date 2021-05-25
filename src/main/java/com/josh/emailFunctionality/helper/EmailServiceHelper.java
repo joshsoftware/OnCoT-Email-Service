@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.josh.emailFunctionality.entity.EmailRegistration;
+import com.josh.emailFunctionality.repository.EmailTemplateRepository;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 
 import freemarker.template.Configuration;
@@ -28,6 +29,9 @@ public class EmailServiceHelper {
 
 	@Autowired
 	EncryptionDecryptionHelper helper;
+	
+	@Autowired
+	EmailTemplateRepository repo;
 
 	@Value("${app.email.url}")
 	private String testUrl;
@@ -36,6 +40,8 @@ public class EmailServiceHelper {
 	private String subject;
 
 	public static String failedEmailSender = "";
+	
+	public Map<String, Object> model = new HashMap<>();
 
 	public static int sendCheckCounter = 0;
 
@@ -48,7 +54,6 @@ public class EmailServiceHelper {
 				helper.decrypt(sendEm.get(sendCheckCounter).getPassword())));
 		email.setSSLOnConnect(true);
 		Template template = configuation.getTemplate("emailTemplate.ftl");
-		Map<String, Object> model = new HashMap<>();
 		model.put("token", token);
 		model.put("url", testUrl);
 		String templateText = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);

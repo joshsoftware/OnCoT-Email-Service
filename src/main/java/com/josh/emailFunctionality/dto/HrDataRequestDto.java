@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailRequestDto {
-
-	private String email;
-	private String token;
+public class HrDataRequestDto {
+	
+	private String name;	
+	private String mobile_number;
 
 }
