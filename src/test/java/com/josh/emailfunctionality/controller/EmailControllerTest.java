@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josh.emailFunctionality.controller.EmailController;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.entity.EmailStatus;
+import com.josh.emailFunctionality.helper.EmailTemplateHelper;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
 import com.josh.emailFunctionality.service.IEmailSendService;
 import com.josh.emailfunctionality.commons.CommonResourse;
@@ -58,16 +60,19 @@ public class EmailControllerTest {
 	@MockBean
 	IEmailRegisterService emailRegService;
 
+	@MockBean
+	EmailTemplateHelper emailTemplateHelper;
 	protected MockMvc mvc;
 	@Autowired
 	WebApplicationContext webApplicationContext;
 
-	
-	
+	@BeforeEach
+	public void buildMvcEnviorment() {
+		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+	}
+
 	@Test
 	void testEmailSendFunctionality() throws Exception {
-		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		
 		String input = mapToJson(CommonResourse.getEmailRequestDto());
 		when(emailService.saveEmail(CommonResourse.getEmailRequestDto())).thenReturn(CommonResourse.getEmailEntity());
 		when(emailRegService.getAllEmails()).thenReturn(CommonResourse.getAllEmails());
@@ -80,8 +85,18 @@ public class EmailControllerTest {
 	}
 
 	@Test
+	public void testMultipleEmailSendFunctionality() throws Exception {
+		String input = mapToJson(CommonResourse.getEmailArrayRequestDto());
+		when(emailService.saveEmail(CommonResourse.getEmailRequestDto())).thenReturn(CommonResourse.getEmailEntity());
+		when(emailRegService.getAllEmails()).thenReturn(CommonResourse.getAllEmails());
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/secondary")
+				.contentType(MediaType.APPLICATION_JSON_VALUE).content(input);
+		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
+		System.out.println(mvcRes.getResponse().getContentAsString());
+	}
+
+	@Test
 	void testGetRegisteredEmails() throws Exception {
-		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		when(emailRegService.getAllEmails()).thenReturn(CommonResourse.getAllEmails());
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/emails");
 		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
@@ -102,41 +117,39 @@ public class EmailControllerTest {
 		emailEntities.put("123", EmailStatus.COMPLETED);
 		String[] tkns = { "123" };
 		when(emailService.getAllStatusByToken(tkns)).thenReturn(emailEntities);
-		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/status").content("[123]");
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/status")
+				.contentType(MediaType.APPLICATION_JSON_VALUE).content("[123]");
 		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
 		@SuppressWarnings("unchecked")
-		Map<String, Object> responseEmailEntities = mapFromJson(mvcRes.getResponse().getContentAsString(), HashMap.class);
-		assertEquals(mvcRes.getResponse().getStatus(),200);
-		assertEquals(responseEmailEntities.get("data").toString().contains("COMPLETED"),true);
-	}
-	
-	@Test
-	public void deleteEmailAccountTest() throws Exception
-	{
-		
-		when(emailRegService.deleteEmail(1)).thenReturn(CommonResourse.getEmailRegistration());
-		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+		Map<String, Object> responseEmailEntities = mapFromJson(mvcRes.getResponse().getContentAsString(),
+				HashMap.class);
+		assertEquals(mvcRes.getResponse().getStatus(), 200);
+		assertEquals(responseEmailEntities.get("data").toString().contains("COMPLETED"), true);
 
+	}
+
+	@Test
+	public void deleteEmailAccountTest() throws Exception {
+
+		when(emailRegService.deleteEmail(1)).thenReturn(CommonResourse.getEmailRegistration());
+		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/email/1");
 		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
-		assertEquals(mvcRes.getResponse().getStatus(),200);
+		assertEquals(mvcRes.getResponse().getStatus(), 200);
 
 	}
-	
+
 	@Test
-	public void registerEmailAccountTest() throws Exception
-	{
-		when(emailRegService.addEmail(CommonResourse.getEmailRegistrationRequestDto())).thenReturn(CommonResourse.getEmailRegistration());
-		
+	public void registerEmailAccountTest() throws Exception {
+		when(emailRegService.addEmail(CommonResourse.getEmailRegistrationRequestDto()))
+				.thenReturn(CommonResourse.getEmailRegistration());
+
 		String input = mapToJson(CommonResourse.getEmailRegistrationRequestDto());
-		
-		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/register").contentType(MediaType.APPLICATION_JSON_VALUE).content(input);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/register")
+				.contentType(MediaType.APPLICATION_JSON_VALUE).content(input);
 		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
 		System.out.println(mvcRes.getResponse().getStatus());
-		assertEquals(mvcRes.getResponse().getStatus(),200);
+		assertEquals(mvcRes.getResponse().getStatus(), 200);
 	}
 }

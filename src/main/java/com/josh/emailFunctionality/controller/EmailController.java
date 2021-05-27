@@ -44,8 +44,7 @@ public class EmailController {
 	@Autowired
 	private IEmailRegisterService emailRegisterService;
 
-	@Autowired
-	private ObjectMapper objectMapper;
+	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Autowired
 	private EmailTemplateHelper templateHelper;
