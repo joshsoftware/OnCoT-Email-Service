@@ -87,32 +87,33 @@ public class EmailSendServiceImplTest {
 			MimeMessage[] receivedMessages = server.getReceivedMessages();
 			assertEquals(receivedMessages[0].getAllRecipients()[0].toString(), emailReqDto.getEmail());
 			assertEquals(receivedMessages[0].getSubject(), "sub");
-			
+
 			doThrow(new Exception("auth failed", new AuthenticationFailedException())).when(emailHelper)
 					.sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
 			emailService.sendEmail(emailCustom);
 
 			EmailServiceHelper.failedEmailSender = "test@gmail.com";
-			doThrow(new Exception("Daily limit exution", new SMTPSendFailedException(null, 0, null, null, null, null, null)))
-					.when(emailHelper).sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
-			when(emailRegRepo.findByEmail("test@gmail.com"))
-					.thenReturn(CommonResourse.getEmailRegistration(CommonResourse.getEmailRegistrationRequestDto()));
+			doThrow(new Exception("Daily limit exution",
+					new SMTPSendFailedException(null, 0, null, null, null, null, null))).when(emailHelper)
+							.sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
+			when(emailRegRepo.findByEmail("test@gmail.com")).thenReturn(CommonResourse.getEmailRegistration());
 			emailService.sendEmail(emailCustom);
 
 			doThrow(new Exception("Mail connection failed",
 					new MailConnectException(new SocketConnectException("test", null, "localhost", 0, 0))))
 							.when(emailHelper).sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
 			emailService.sendEmail(emailCustom);
-			
-			doThrow(new Exception(new SMTPAddressFailedException(null, null, 0, null))).when(emailHelper).sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
+
+			doThrow(new Exception(new SMTPAddressFailedException(null, null, 0, null))).when(emailHelper)
+					.sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
 			emailService.sendEmail(emailCustom);
-			
-			doThrow(new Exception("For final common exception",new IllegalStateException())).when(emailHelper).sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
+
+			doThrow(new Exception("For final common exception", new IllegalStateException())).when(emailHelper)
+					.sendEmailHelper(emailReqDto.getEmail(), emailReqDto.getToken());
 			emailService.sendEmail(emailCustom);
 			when(emailRegRepo.findAllIsAvailable()).thenReturn(new ArrayList<>());
 			emailService.sendEmail(emailCustom);
-			
-			
+
 			server.stop();
 		} catch (Exception ex) {
 			System.out.println("Exception " + ex.getMessage());
@@ -132,7 +133,7 @@ public class EmailSendServiceImplTest {
 		when(emailSendRepo.findByToken("123")).thenReturn(null);
 		when(emailSendRepo.save(emailEntity)).thenReturn(emailEntity);
 		em = emailService.saveEmail(emailReqDto);
-		
+
 		assertEquals(em, null);
 	}
 
@@ -140,7 +141,7 @@ public class EmailSendServiceImplTest {
 	public void getAllStatusByTokenTest() {
 		EmailEntity emailEntity = CommonResourse.getEmailEntity();
 		emailEntity.setStatus(EmailStatus.COMPLETED);
-		
+
 		when(emailRepoMockBean.findByToken("123")).thenReturn(emailEntity);
 		String[] arr = { "123" };
 		Map<String, EmailStatus> emailEntities = emailService.getAllStatusByToken(arr);

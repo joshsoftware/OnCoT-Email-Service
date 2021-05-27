@@ -11,31 +11,37 @@ import com.josh.emailFunctionality.entity.EmailRegistration;
 
 public class CommonResourse {
 
+	private static EmailRegistration emailRegistration = new EmailRegistration(1L, "test@gmail.com", "test", true);
+	private static EmailRegisterRequestDto emailRegisterRequestDto = new EmailRegisterRequestDto("test@gmail.com", "test");
+	private static ScheduledThreadPoolExecutor scheduledThreadPoolExecutor= new ScheduledThreadPoolExecutor(1);
+	private static EmailRequestDto emailRequestDto = new EmailRequestDto("test@gmail.com","123");
+	private static EmailEntity emailEntity = new EmailEntity(emailRequestDto);
+	private static List<EmailRegistration> availableEmails = new ArrayList<>();
+	
 	public static List<EmailRegistration> getAllEmails() {
-		List<EmailRegistration> availableEmails = new ArrayList<>();
-		availableEmails.add(new EmailRegistration(1l, "test@gmail.com", "test", true));
+		availableEmails.add(emailRegistration);
 		return availableEmails;
 	}
 
-	public static EmailRegistration getEmailRegistration(EmailRegisterRequestDto emRDto) {
-		return new EmailRegistration(emRDto);
+	public static EmailRegistration getEmailRegistration() {
+		return emailRegistration;
 	}
 	public static EmailRegisterRequestDto getEmailRegistrationRequestDto()
 	{
-		return new EmailRegisterRequestDto("test@gmail.com", "test");
+		return emailRegisterRequestDto;
 	}
 	
 	public static ScheduledThreadPoolExecutor getThreadPoolExecutor()
 	{
-		return new ScheduledThreadPoolExecutor(1);
+		return scheduledThreadPoolExecutor;
 	}
 	
 	public static EmailRequestDto getEmailRequestDto()
 	{
-		return new EmailRequestDto("test@gmail.com","123");
+		return emailRequestDto;
 	}
 	public static EmailEntity getEmailEntity()
 	{
-		return new EmailEntity(getEmailRequestDto());
+		return emailEntity;
 	}
 }

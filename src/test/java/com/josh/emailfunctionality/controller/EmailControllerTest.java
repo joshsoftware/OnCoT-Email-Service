@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -31,9 +29,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josh.emailFunctionality.controller.EmailController;
-import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
-import com.josh.emailFunctionality.dto.EmailRequestDto;
-import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
@@ -119,7 +114,7 @@ public class EmailControllerTest {
 	public void deleteEmailAccountTest() throws Exception
 	{
 		
-		when(emailRegService.deleteEmail(1)).thenReturn(CommonResourse.getEmailRegistration(CommonResourse.getEmailRegistrationRequestDto()));
+		when(emailRegService.deleteEmail(1)).thenReturn(CommonResourse.getEmailRegistration());
 		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/email/1");
@@ -131,7 +126,7 @@ public class EmailControllerTest {
 	@Test
 	public void registerEmailAccountTest() throws Exception
 	{
-		when(emailRegService.addEmail(CommonResourse.getEmailRegistrationRequestDto())).thenReturn(CommonResourse.getEmailRegistration(CommonResourse.getEmailRegistrationRequestDto()));
+		when(emailRegService.addEmail(CommonResourse.getEmailRegistrationRequestDto())).thenReturn(CommonResourse.getEmailRegistration());
 		
 		String input = mapToJson(CommonResourse.getEmailRegistrationRequestDto());
 		
