@@ -96,14 +96,9 @@ public class EmailController {
 		try {
 			templateHelper.setEmailTemplate(emailArrayRequestDto);
 		} catch (Exception e1) {
+			System.out.println("Here i s issue");
 			e1.printStackTrace();
 		}	
-//		System.out.println("Drive name : "+emailArrayRequestDto.getDrive_details().getDrive());
-//		System.out.println("Organization name : "+emailArrayRequestDto.getDrive_details().getOrganization());
-//		System.out.println("Start Date : "+emailArrayRequestDto.getDrive_details().getStart_time());
-//		for(HrDataRequestDto hr : emailArrayRequestDto.getDrive_details().getHr_contacts()) {
-//		System.out.println("Hrs : "+hr.getName()+" Mobile Number : "+hr.getMobile_number());
-//		}
 		for (EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
 			if (emailRegisterService.getAllEmails().size() == 0)
 				throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");

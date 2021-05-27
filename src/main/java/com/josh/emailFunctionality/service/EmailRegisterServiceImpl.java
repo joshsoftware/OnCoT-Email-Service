@@ -52,7 +52,7 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		return emailReg;
 	}
 
-	//This method is to get properties that would be used in session
+	//This method is to get/set properties that would be used in session
 	public Properties getProperties() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");

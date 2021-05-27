@@ -34,24 +34,21 @@
 In case of any queries, contact
 </p>
 <p>
-Neha Vyas- +91 8552026633,
-</p>
-<p>
-Sneha Mantri -   +91 77740 56300
+    <#list hr_contacts?keys as key> 
+    <p>${key} : ${hr_contacts[key]} </p>
+	</#list> 
 </p>
 
+
 <p>
-  If you face any issue while online code submission then submit your code <a href="https://forms.gle/hth8Qiif45PukRms7">Here</a>
+  If you face any issue while online code submission then submit your code <a href="${googleFormUrl}">Here</a>
 </p>
 
 <p>
 Regards,
 <br>
-Team Josh Software Pune.
+Team ${organization}.
 </p>
 
-    <#list hr_contacts?keys as key> 
-    <p>${key} : ${hr_contacts[key]} </p>
-	</#list> 
 </body>
 </html>

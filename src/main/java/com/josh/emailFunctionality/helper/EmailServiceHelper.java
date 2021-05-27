@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.josh.emailFunctionality.entity.EmailRegistration;
-import com.josh.emailFunctionality.repository.EmailTemplateRepository;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 
 import freemarker.template.Configuration;
@@ -31,13 +30,13 @@ public class EmailServiceHelper {
 	EncryptionDecryptionHelper helper;
 	
 	@Autowired
-	EmailTemplateRepository repo;
+	EmailTemplateHelper emailTemplateHelper;
 
 	@Value("${app.email.url}")
 	private String testUrl;
-
-	@Value("${app.email.subject}")
-	private String subject;
+	
+	@Value("${app.email.googleForm.url}")
+	private String googleFormUrl;
 
 	public static String failedEmailSender = "";
 	
@@ -56,9 +55,10 @@ public class EmailServiceHelper {
 		Template template = configuation.getTemplate("emailTemplate.ftl");
 		model.put("token", token);
 		model.put("url", testUrl);
+		model.put("googleFormUrl", googleFormUrl);
 		String templateText = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 		email.setFrom(sendEm.get(sendCheckCounter).getEmail());
-		email.setSubject(subject);
+		email.setSubject(emailTemplateHelper.subject);
 		email.setHtmlMsg(templateText);
 		email.addTo(to);
 		try {
