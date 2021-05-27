@@ -1,5 +1,6 @@
 package com.josh.emailFunctionality.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
 import com.josh.emailFunctionality.common.Response;
@@ -43,21 +42,20 @@ public class EmailController {
 
 	@Autowired
 	private IEmailRegisterService emailRegisterService;
-	
-	@Autowired
-	private ObjectMapper objectMapper;
 
-	//This api is used to register sender emails
+	private ObjectMapper objectMapper = new ObjectMapper();
+
+	// This api is used to register sender emails
 	@PostMapping("/register")
 	public ResponseEntity<Response> registerEmailAccount(@RequestBody EmailRegisterRequestDto regEmailReqDto) {
-		
+
 		emailRegisterService.addEmail(regEmailReqDto);
 		Response response = new Response("Success", "Email added in database successfully", "", null,
 				LocalDateTime.now().format(formatter));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	//This api is used to get the list of registered sender emails
+	// This api is used to get the list of registered sender emails
 	@GetMapping("/emails")
 	public ResponseEntity<Response> getRegisteredEmail() {
 		Response response = new Response("Success", "Registerd Emails", "", new HashMap<>(),
@@ -66,7 +64,7 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	//This api is used to delete the sender emails by id
+	// This api is used to delete the sender emails by id
 	@DeleteMapping("/email/{id}")
 	public ResponseEntity<Response> deleteEmailAccount(@PathVariable long id) {
 		emailRegisterService.deleteEmail(id);
@@ -75,7 +73,8 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
-	//This api is used to send emails to candidate as an array of emails and token object
+	// This api is used to send emails to candidate as an array of emails and token
+	// object
 	@PostMapping("/secondary")
 	public ResponseEntity<Response> sendAllEmails(@RequestBody EmailArrayRequestDto emailArrayRequestDto) {
 		for (EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
@@ -93,7 +92,8 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
-	//This api is used to send emails to candidates per request
+	// This api is used to send emails to candidates per request
+
 	@PostMapping("/email")
 	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
 		if (emailRegisterService.getAllEmails().size() == 0)
@@ -109,10 +109,9 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
-	//This api is used to get the status of emails
+	// This api is used to get the status of emails
 	@GetMapping("/status")
-	public ResponseEntity<Response> getStatusOfEmails(@RequestBody String tkns)
-			throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<Response> getStatusOfEmails(@RequestBody String tkns) throws IOException {
 		String[] tokens = objectMapper.reader().forType(new TypeReference<String[]>() {
 		}).readValue(tkns);
 		Map<String, EmailStatus> emailStatus = emailService.getAllStatusByToken(tokens);

@@ -2,6 +2,7 @@ package com.josh.emailFunctionality.service;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,7 +50,10 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	@Override
 	@Async("CustomThreadConfig")
 	public void sendEmail(EmailEntity emailCustom) throws Exception {
-		if (emailRegRepo.findAllIsAvailable().size() == 0) {
+		System.out.println("Method called");
+		List<EmailRegistration> availableEmails  =emailRegRepo.findAllIsAvailable();
+		
+		if (availableEmails.size()== 0) {
 			updateEmail(emailCustom.getToken(), EmailStatus.FAILED, "");
 			areSendersAvailable = false;
 		} else {
@@ -61,12 +65,12 @@ public class EmailSendServiceImpl implements IEmailSendService {
 				emailCustom.setSender(sender);
 				updateEmail(emailCustom.getToken(), stat, sender);
 			} catch (Exception e) {
+				System.out.println(e.getCause());
 				if (e.getCause() instanceof javax.mail.AuthenticationFailedException) {
+					System.out.println(" In asdbhabshdbajb n aks dja bsjhd" + e.getMessage());
 					try {
 						scheduledThreadPoolExecutor.awaitTermination(15, TimeUnit.MINUTES);
-						String sender = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(),
-								emailCustom.getToken());
-						emailCustom.setSender(sender);
+						String sender = emailServiceHelper.resendEmail(emailCustom);
 						updateEmail(emailCustom.getToken(), EmailStatus.COMPLETED, sender);
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -78,8 +82,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 						resetDailyLimit(EmailServiceHelper.failedEmailSender);
 						changeAvailableStatus(EmailServiceHelper.failedEmailSender, false);
 						if (emailRegRepo.findAllIsAvailable().size() != 0) {
-							String sender = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(),
-									emailCustom.getToken());
+							String sender = emailServiceHelper.resendEmail(emailCustom);
 							stat = EmailStatus.COMPLETED;
 							updateEmail(emailCustom.getToken(), stat, sender);
 						} else {
@@ -92,9 +95,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 				} else if (e.getCause().toString().contains("com.sun.mail.util.MailConnectException")) {
 					try {
 						scheduledThreadPoolExecutor.awaitTermination(10, TimeUnit.MINUTES);
-						senderEmail = emailServiceHelper.sendEmailHelper(emailCustom.getEmail(),
-								emailCustom.getToken());
-						emailCustom.setSender(senderEmail);
+						senderEmail = emailServiceHelper.resendEmail(emailCustom);
 						updateEmail(emailCustom.getToken(), EmailStatus.COMPLETED, senderEmail);
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -134,6 +135,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	//This is used to change the staus of pending emails
 	public void changeAvailableStatus(String email, boolean status) {
 		EmailRegistration emailReg = emailRegRepo.findByEmail(email);
+		System.out.println(emailReg);
 		emailReg.setAvailable(status);
 		emailRegRepo.save(emailReg);
 	}

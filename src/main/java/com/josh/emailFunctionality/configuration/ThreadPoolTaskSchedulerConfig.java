@@ -51,5 +51,6 @@ public class ThreadPoolTaskSchedulerConfig {
 			customerExecutor.setCorePoolSize(scheduledThreadPoolExec.getCorePoolSize());
 			customerExecutor.setMaximumPoolSize(scheduledThreadPoolExec.getMaximumPoolSize());
 		}
+
 	}
 }

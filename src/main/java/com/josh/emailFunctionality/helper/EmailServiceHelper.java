@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 
@@ -71,5 +72,12 @@ public class EmailServiceHelper {
 		}
 		return sender;
 	}
-
+	
+	public String resendEmail(EmailEntity emailCustom) throws Exception
+	{
+		String sender = sendEmailHelper(emailCustom.getEmail(),
+				emailCustom.getToken());
+		emailCustom.setSender(sender);
+		return sender;
+	}
 }
