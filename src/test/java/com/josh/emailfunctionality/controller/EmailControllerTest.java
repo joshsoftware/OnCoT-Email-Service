@@ -106,8 +106,10 @@ public class EmailControllerTest {
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/status").content("[123]");
 		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> responseEmailEntities = mapFromJson(mvcRes.getResponse().getContentAsString(), HashMap.class);
 		assertEquals(mvcRes.getResponse().getStatus(),200);
-
+		assertEquals(responseEmailEntities.get("data").toString().contains("COMPLETED"),true);
 	}
 	
 	@Test

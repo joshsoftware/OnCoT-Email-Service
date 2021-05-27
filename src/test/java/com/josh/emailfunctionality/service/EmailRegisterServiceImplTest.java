@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +26,6 @@ import com.josh.emailFunctionality.repository.RegisterEmailRepository;
 import com.josh.emailFunctionality.service.EmailRegisterServiceImpl;
 import com.josh.emailfunctionality.commons.CommonResourse;
 
-//@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest(classes = EmailRegisterServiceImpl.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class EmailRegisterServiceImplTest {
@@ -33,8 +33,8 @@ public class EmailRegisterServiceImplTest {
 	@Autowired
 	WebApplicationContext webApplicationContext;
 
-	@Autowired
-	EmailRegisterServiceImpl imp;
+	@InjectMocks
+	EmailRegisterServiceImpl emailRegisterServiceImpl;
 
 	@MockBean
 	EmailRegisterHelper emailRegHelper;
@@ -60,7 +60,7 @@ public class EmailRegisterServiceImplTest {
 		when(registerEmailRepository.findAll()).thenReturn(CommonResourse.getAllEmails());
 		when(emailRegHelper.reinitiateThreadPool(1)).thenReturn(CommonResourse.getThreadPoolExecutor());
 		when(encrypHelperMock.encrypt(regEmailReqDto.getPassword())).thenReturn("test");
-		EmailRegistration emailRegistration = imp.addEmail(regEmailReqDto);
+		EmailRegistration emailRegistration = emailRegisterServiceImpl.addEmail(regEmailReqDto);
 		assertEquals(emailRegistration.getEmail(), regEmailReqDto.getEmail());
 
 	}
@@ -70,7 +70,7 @@ public class EmailRegisterServiceImplTest {
 		EmailRegistration emReg = new EmailRegistration(1L, "test@gmail.com", "test", true);
 		when(registerEmailRepository.findById(1L)).thenReturn(Optional.of(emReg));
 		when(emailRegHelper.reinitiateThreadPool(1)).thenReturn(CommonResourse.getThreadPoolExecutor());
-		EmailRegistration emailRegistration = imp.deleteEmail(1L);
+		EmailRegistration emailRegistration = emailRegisterServiceImpl.deleteEmail(1L);
 		assertEquals(emailRegistration.getEmail(), emReg.getEmail());
 	}
 
