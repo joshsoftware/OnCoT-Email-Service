@@ -29,14 +29,19 @@ public class EmailServiceHelper {
 
 	@Autowired
 	EncryptionDecryptionHelper helper;
+	
+	@Autowired
+	EmailTemplateHelper emailTemplateHelper;
 
 	@Value("${app.email.url}")
 	private String testUrl;
-
-	@Value("${app.email.subject}")
-	private String subject;
+	
+	@Value("${app.email.googleForm.url}")
+	private String googleFormUrl;
 
 	public static String failedEmailSender = "";
+	
+	public Map<String, Object> model = new HashMap<>();
 
 	public static int sendCheckCounter = 0;
 
@@ -49,12 +54,12 @@ public class EmailServiceHelper {
 				helper.decrypt(sendEm.get(sendCheckCounter).getPassword())));
 		email.setSSLOnConnect(true);
 		Template template = configuation.getTemplate("emailTemplate.ftl");
-		Map<String, Object> model = new HashMap<>();
 		model.put("token", token);
 		model.put("url", testUrl);
+		model.put("googleFormUrl", googleFormUrl);
 		String templateText = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 		email.setFrom(sendEm.get(sendCheckCounter).getEmail());
-		email.setSubject(subject);
+		email.setSubject(emailTemplateHelper.subject);
 		email.setHtmlMsg(templateText);
 		email.addTo(to);
 		try {

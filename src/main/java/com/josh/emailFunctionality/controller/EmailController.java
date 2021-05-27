@@ -27,6 +27,7 @@ import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailStatus;
+import com.josh.emailFunctionality.helper.EmailTemplateHelper;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
 import com.josh.emailFunctionality.service.IEmailSendService;
 
@@ -43,7 +44,11 @@ public class EmailController {
 	@Autowired
 	private IEmailRegisterService emailRegisterService;
 
-	private ObjectMapper objectMapper = new ObjectMapper();
+	@Autowired
+	private ObjectMapper objectMapper;
+	
+	@Autowired
+	private EmailTemplateHelper templateHelper;
 
 	// This api is used to register sender emails
 	@PostMapping("/register")
@@ -77,6 +82,12 @@ public class EmailController {
 	// object
 	@PostMapping("/secondary")
 	public ResponseEntity<Response> sendAllEmails(@RequestBody EmailArrayRequestDto emailArrayRequestDto) {
+		try {
+			templateHelper.setEmailTemplate(emailArrayRequestDto);
+		} catch (Exception e1) {
+			System.out.println("Here i s issue");
+			e1.printStackTrace();
+		}	
 		for (EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
 			if (emailRegisterService.getAllEmails().size() == 0)
 				throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");

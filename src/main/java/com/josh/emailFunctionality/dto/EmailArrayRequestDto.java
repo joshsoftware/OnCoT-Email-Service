@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailArrayRequestDto {
+	
+	private DriveDetailsRequestDto drive_details;
 	private List<EmailRequestDto> emails;
 }

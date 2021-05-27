@@ -55,7 +55,6 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 	}
 
 
-
 	//This method is used to delete the sender emails from the database
 	@Override
 	public EmailRegistration deleteEmail(long id) {

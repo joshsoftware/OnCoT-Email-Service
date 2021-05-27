@@ -9,7 +9,22 @@
 }
   </style>
 </head>
+<<<<<<< HEAD
 <body style="font-family: Arial, Helvetica, sans-serif; color: #46535e; font-size: 14px;">
+=======
+<body>
+<p> Hi Candidate</p>
+<p>
+  You have been invited to take coding round by <b>${organization}</b>.
+  <p>${organization}</p>
+    <p>${drive_name}</p>
+      <p>${start_time?date} - ${start_time?time}</p>
+        <p>${end_time?date} - ${end_time?time}</p>
+
+
+</p>
+</br>
+>>>>>>> origin/Daily-Limit-Enhancement-v6
 
   <div class="center" style="background-color:#f0f0f0;height: auto;padding: 5px;"> 
       <div style="margin: 30px; padding: 10px; background-color:#fff">
@@ -57,5 +72,30 @@
   </div>
 
 
+<<<<<<< HEAD
+=======
+</br>
+</br>
+<p>
+In case of any queries, contact
+</p>
+<p>
+    <#list hr_contacts?keys as key> 
+    <p>${key} : ${hr_contacts[key]} </p>
+	</#list> 
+</p>
+
+
+<p>
+  If you face any issue while online code submission then submit your code <a href="${googleFormUrl}">Here</a>
+</p>
+
+<p>
+Regards,
+<br>
+Team ${organization}.
+</p>
+
+>>>>>>> origin/Daily-Limit-Enhancement-v6
 </body>
 </html>
