@@ -43,10 +43,14 @@ public class EmailServiceHelper {
 	
 	public Map<String, Object> model = new HashMap<>();
 
-	public static int sendCheckCounter = 0;
+	public static int sendCheckCounter = -1;
 
 	public String sendEmailHelper(String to, String token) throws Exception {
 		List<EmailRegistration> sendEm = tempRepo.findAllIsAvailable();
+		sendCheckCounter++;
+		if (sendCheckCounter > sendEm.size() - 1) {
+			sendCheckCounter = 0;
+		}
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(587);
@@ -71,10 +75,6 @@ public class EmailServiceHelper {
 			throw e;
 		}
 		String sender = email.getFromAddress().toString();
-		sendCheckCounter++;
-		if (sendCheckCounter > sendEm.size() - 1) {
-			sendCheckCounter = 0;
-		}
 		return sender;
 	}
 	

@@ -46,7 +46,6 @@ public class EmailRegisterServiceImpl implements IEmailRegisterService {
 		emailRegHelper.testEmailConnection(regEmailReqDto);		
 		regEmailReqDto.setPassword(helper.encrypt(regEmailReqDto.getPassword()));
 		EmailRegistration emailReg = registerEmailRepository.save(new EmailRegistration(regEmailReqDto));
-		System.out.println(emailReg);
 		List<EmailRegistration> emails = getAllEmails();
 		ScheduledThreadPoolExecutor newScheduledThreadPoolExec = emailRegHelper.reinitiateThreadPool(emails.size());
 		threadPoolTaskSchedulerConfig.reintialiseBean(newScheduledThreadPoolExec, emails.size());
