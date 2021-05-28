@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class HrDataRequestDto {
 	
-	private String name;	
-	private String mobile_number;
+	public String name;	
+	public String mobile_number;
 
 }

@@ -2,6 +2,9 @@ package com.josh.emailFunctionality.dto;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailArrayRequestDto {
+	@ApiModelProperty(required = true)
+
+	@Valid
+	public DriveDetailsRequestDto drive_details;
 	
-	private DriveDetailsRequestDto drive_details;
-	private List<EmailRequestDto> emails;
+	public List<EmailRequestDto> emails;
 }

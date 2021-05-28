@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,8 @@ import com.josh.emailFunctionality.common.Response;
 import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
 import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
+import com.josh.emailFunctionality.dto.EmailResponseDto;
+import com.josh.emailFunctionality.dto.SampleDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailTemplateHelper;
@@ -92,7 +95,7 @@ public class EmailController {
 
 	//This api is used to send emails to candidate as an array of emails and token object
 	@PostMapping("/secondary")
-	public ResponseEntity<Response> sendAllEmails(@RequestBody EmailArrayRequestDto emailArrayRequestDto) {
+	public ResponseEntity<Response> sendAllEmails(@Valid @RequestBody EmailArrayRequestDto emailArrayRequestDto) {
 		try {
 			templateHelper.setEmailTemplate(emailArrayRequestDto);
 		} catch (Exception e1) {
@@ -141,5 +144,12 @@ public class EmailController {
 				LocalDateTime.now().format(formatter));
 		response.getData().put("Status", emailStatus);
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@GetMapping("/age")
+	public ResponseEntity<EmailResponseDto> sampleMethod(@Valid @RequestBody SampleDto sample) {
+		
+		return null;
+		
 	}
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmailRegisterResponseDto {
-	private String email;
+	public String email;
 	@JsonIgnore
-	private String password;
+	public String password;
 }

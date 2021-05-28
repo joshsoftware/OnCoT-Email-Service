@@ -11,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EmailResponseDto {
 
-	private String message;
-
-	private Integer successStatus;
+	public String message;
+	
+	public Integer successStatus;
 
 }

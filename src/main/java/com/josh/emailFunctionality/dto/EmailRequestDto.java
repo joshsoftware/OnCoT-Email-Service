@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EmailRequestDto {
 
-	private String email;
-	private String token;
+	public String email;
+	public String token;
 
 }
