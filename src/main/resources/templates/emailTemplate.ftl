@@ -16,20 +16,15 @@
         <p> Hi Candidate</p>
 <p>
   You have been invited to take coding round by <b>${organization}</b>.
-  <p>${organization}</p>
-    <p>${drive_name}</p>
-      <p>${start_time?date} - ${start_time?time}</p>
-        <p>${end_time?date} - ${end_time?time}</p>
-
-
 </p>
-</br>
-
-        
+</br>       
         <b>Test Details</b>
         <ul>
           <li>
             <b>Test Link:</b> <a href="${url}/${token}">Click here</a>
+          </li>
+          <li>
+            <b>Test Start Time:</b> ${start_time?date} - ${start_time?time}
           </li>
         </ul>
         

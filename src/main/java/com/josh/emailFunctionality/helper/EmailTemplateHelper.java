@@ -26,7 +26,6 @@ public class EmailTemplateHelper {
 		emailServiceHelper.model.put("drive_name", emailArrayRequestDto.getDrive_details().getDrive());
 		emailServiceHelper.model.put("start_time",
 				formatter.parse(emailArrayRequestDto.getDrive_details().getStart_time()));
-		System.out.println("Date ;" + formatter.parse(emailArrayRequestDto.getDrive_details().getStart_time()));
 		emailServiceHelper.model.put("end_time",
 				formatter.parse(emailArrayRequestDto.getDrive_details().getEnd_time()));
 		Map<String, String> hrList = new HashMap<String, String>();

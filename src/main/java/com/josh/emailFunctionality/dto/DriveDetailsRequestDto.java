@@ -3,7 +3,6 @@ package com.josh.emailFunctionality.dto;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,15 +16,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DriveDetailsRequestDto {
 
-	@JsonProperty
 	@ApiModelProperty(required = true)
-	@NotBlank(message="drive cant be null")
-	public String drive;
-	@NotNull(message="Org cant be null")
+	@NotBlank(message="Drive name cannot be blank or null")
+	@JsonProperty("drive_name")
+	private String drive;
+	
+	@NotBlank(message="Organization name cannot be blank or null")
 	@ApiModelProperty(required = true)
-	public String organization;
-	public String start_time;
-	public String end_time;
-	public List<HrDataRequestDto> hr_contacts;
+	@JsonProperty("organization_name")
+	private String organization;
+	
+	private String start_time;
+	
+	private String end_time;
+	
+	private List<HrDataRequestDto> hr_contacts;
 
 }

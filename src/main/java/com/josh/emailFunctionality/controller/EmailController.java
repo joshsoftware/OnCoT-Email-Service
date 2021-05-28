@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,6 @@ import com.josh.emailFunctionality.common.Response;
 import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
 import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
-import com.josh.emailFunctionality.dto.EmailResponseDto;
-import com.josh.emailFunctionality.dto.SampleDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailTemplateHelper;
@@ -132,11 +132,5 @@ public class EmailController {
 		response.getData().put("Status", emailStatus);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
-	@GetMapping("/age")
-	public ResponseEntity<EmailResponseDto> sampleMethod(@Valid @RequestBody SampleDto sample) {
-		
-		return null;
-		
-	}
+
 }

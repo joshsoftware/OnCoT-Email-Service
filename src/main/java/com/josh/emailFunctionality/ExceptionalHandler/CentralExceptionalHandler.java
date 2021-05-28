@@ -60,7 +60,6 @@ public class CentralExceptionalHandler {
 	Response err = new Response();
 	err.setStatus("Error");
 	List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-	System.out.println(fieldErrors.size());
 	List<String> errors = new ArrayList<>();
 	for(FieldError e : fieldErrors)
 	{
