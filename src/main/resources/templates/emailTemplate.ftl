@@ -6,14 +6,28 @@
   margin: auto;
   width: 55%;
   padding: 20px;
+  resize:both;
+  overflow:auto;
+}
+@media (min-width: 360px){
+	body{
+		font-size: 10px;
+	}
+	.center{
+		width: 90%;
+  		padding: 10px;
+  		resize:both;
+  		overflow:auto;
+	}
 }
   </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif; color: #46535e; font-size: 14px;">
 
   <div class="center" style="background-color:#f0f0f0;height: auto;padding: 5px;"> 
       <div style="margin: 30px; padding: 10px; background-color:#fff">
-        <p> Hi Candidate</p>
+        <p> Hi Candidate,</p>
 <p>
   You have been invited to take coding round by <b>${organization}</b>.
 </p>
