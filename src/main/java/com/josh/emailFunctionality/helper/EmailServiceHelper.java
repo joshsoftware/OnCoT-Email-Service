@@ -45,6 +45,7 @@ public class EmailServiceHelper {
 
 	public static int sendCheckCounter = -1;
 
+	
 	public String sendEmailHelper(String to, String token) throws Exception {
 		List<EmailRegistration> sendEm = tempRepo.findAllIsAvailable();
 		sendCheckCounter++;

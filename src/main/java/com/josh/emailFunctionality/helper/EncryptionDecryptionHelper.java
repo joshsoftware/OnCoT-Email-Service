@@ -10,6 +10,8 @@ import javax.crypto.spec.DESedeKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 
+import lombok.Synchronized;
+
 @Service
 public class EncryptionDecryptionHelper {
 
@@ -46,6 +48,7 @@ public class EncryptionDecryptionHelper {
 		return encryptedString;
 	}
 
+	@Synchronized
 	public String decrypt(String encryptedString) {
 		String decryptedText = null;
 		try {
