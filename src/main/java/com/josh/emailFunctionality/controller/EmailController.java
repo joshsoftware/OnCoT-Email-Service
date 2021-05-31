@@ -83,6 +83,7 @@ public class EmailController {
 	// object
 	@PostMapping("/secondary")
 	public ResponseEntity<Response> sendAllEmails(@Valid @RequestBody EmailArrayRequestDto emailArrayRequestDto) {
+		
 		try {
 			templateHelper.setEmailTemplate(emailArrayRequestDto);
 		} catch (Exception e1) {
