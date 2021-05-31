@@ -87,13 +87,9 @@ public class EmailController {
 		try {
 			templateHelper.setEmailTemplate(emailArrayRequestDto);
 		} catch (Exception e1) {
-			System.out.println("Here i s issue");
 			e1.printStackTrace();
 		}	
 		for (EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
-			//temp
-		//	for(int i=0;i<2000;i++) {//this
-			//	emailRequestDto.setToken("Qwerty"+i);//this
 			if (emailRegisterService.getAllEmails().size() == 0)
 				throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 			try {
@@ -103,7 +99,6 @@ public class EmailController {
 				e.printStackTrace();
 			}
 		}
-	//	}//temp ths line }
 		Response response = new Response("Success", "Email sending is in progress", "", null,
 				LocalDateTime.now().format(formatter));
 		return new ResponseEntity<>(response, HttpStatus.CREATED);

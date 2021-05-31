@@ -2,12 +2,14 @@ package com.josh.emailFunctionality.helper;
 
 import java.security.spec.KeySpec;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import lombok.Synchronized;
@@ -21,12 +23,17 @@ public class EncryptionDecryptionHelper {
 	private SecretKeyFactory skf;
 	private Cipher cipher;
 	byte[] arrayBytes;
+	@Value("${app.salt}")
 	private String myEncryptionKey;
 	private String myEncryptionScheme;
 	SecretKey key;
 
 	public EncryptionDecryptionHelper() throws Exception {
-		myEncryptionKey = "Tasasaadasd!@@#!@#sfgsfsg12424323&&&sdfafdQWEAFGSHshjHSJHS@#$#)()@";
+	
+	}
+	
+	@PostConstruct
+	public void afterConstruct() throws Exception {
 		myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
 		arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);
 		ks = new DESedeKeySpec(arrayBytes);
