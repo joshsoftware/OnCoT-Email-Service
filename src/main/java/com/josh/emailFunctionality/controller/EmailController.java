@@ -81,7 +81,7 @@ public class EmailController {
 
 	// This api is used to send emails to candidate as an array of emails and token
 	// object
-	@PostMapping("/secondary")
+	@PostMapping("/sendEmails")
 	public ResponseEntity<Response> sendAllEmails(@Valid @RequestBody EmailArrayRequestDto emailArrayRequestDto) {
 		
 		try {
@@ -105,7 +105,7 @@ public class EmailController {
 	}
 
 	// This api is used to send emails to candidates per request
-
+	//(Old implementation.Currently not in use)
 	@PostMapping("/email")
 	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
 		if (emailRegisterService.getAllEmails().size() == 0)
