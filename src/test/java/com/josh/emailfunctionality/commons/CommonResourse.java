@@ -19,7 +19,7 @@ public class CommonResourse {
 	private static ScheduledThreadPoolExecutor scheduledThreadPoolExecutor= new ScheduledThreadPoolExecutor(1);
 	private static EmailRequestDto emailRequestDto = new EmailRequestDto("test@gmail.com","123");
 	private static EmailEntity emailEntity = new EmailEntity(emailRequestDto);
-	private static List<EmailRegistration> availableEmails = new ArrayList<>();
+	private static List<EmailRegistration> availableEmails;
 	private static List<HrDataRequestDto> hrData = new ArrayList<HrDataRequestDto>();
 	private static DriveDetailsRequestDto driveDetailsRequestDto = new DriveDetailsRequestDto("test","test_sample","2021-11-05 22:10:22","2021-12-24 10:03:22", hrData);
 	private static List<EmailRequestDto> emailRequestDtos = new ArrayList<>();
@@ -33,6 +33,7 @@ public class CommonResourse {
 	}
 	
 	public static List<EmailRegistration> getAllEmails() {
+		availableEmails = new ArrayList<>();
 		availableEmails.add(emailRegistration);
 		return availableEmails;
 	}
@@ -40,6 +41,11 @@ public class CommonResourse {
 	public static EmailRegistration getEmailRegistration() {
 		return emailRegistration;
 	}
+	public static EmailRegistration getNewEmailRegistration() {
+		return new EmailRegistration(emailRegisterRequestDto);
+	}
+	
+	
 	public static EmailRegisterRequestDto getEmailRegistrationRequestDto()
 	{
 		return emailRegisterRequestDto;

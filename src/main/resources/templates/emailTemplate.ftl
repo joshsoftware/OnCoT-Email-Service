@@ -20,6 +20,17 @@
   		overflow:auto;
 	}
 }
+@media (min-width: 600px){
+	body{
+		font-size: 10px;
+	}
+	.center{
+		width: 65%;
+  		padding: 10px;
+  		resize:both;
+  		overflow:auto;
+	}
+}
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
