@@ -70,7 +70,6 @@ public class EmailSendServiceImpl implements IEmailSendService {
 		}	
 	}
 	
-	
 	//This method is used to send emails to the registered candidates
 	@Override
 	@Async("CustomThreadConfig")
@@ -193,7 +192,10 @@ public class EmailSendServiceImpl implements IEmailSendService {
 			EmailEntity emailEntity = emailRepository.findByToken(token);
 			EmailStatusResponseDto emailStatusEntities = new EmailStatusResponseDto();
 			if (emailEntity != null) {
-				emailStatusEntities.setSentAt(emailEntity.getTimeStamp().toString());
+				if(emailEntity.getTimeStamp()!=null)
+					emailStatusEntities.setSentAt(emailEntity.getTimeStamp().toString());
+				else
+					emailStatusEntities.setSentAt(null);
 				emailStatusEntities.setStatus(emailEntity.getStatus());
 				emailStatusEntities.setSender(emailEntity.getSender());
 				emailEntities.put(token, emailStatusEntities);

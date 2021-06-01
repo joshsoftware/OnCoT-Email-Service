@@ -78,9 +78,8 @@ public class CentralExceptionalHandler {
 	{
 		Response err = new Response();
 		err.setStatus("Error");
-		err.setMessage("Json Data bind error");
+		err.setMessage("Oops....!!! Something went wrong..");
 		err.setError(ex.getOriginalMessage());
-		System.out.println(ex.getOriginalMessage());
 		err.setTimeStamp(LocalDateTime.now().format(format));
 		return new ResponseEntity<Object>(err, HttpStatus.UNPROCESSABLE_ENTITY);
 	}

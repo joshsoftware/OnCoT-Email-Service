@@ -104,23 +104,6 @@ public class EmailController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
-	// This api is used to send emails to candidates per request
-	//(Old implementation.Currently not in use)
-	@PostMapping("/email")
-	public ResponseEntity<Response> sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
-		if (emailRegisterService.getAllEmails().size() == 0)
-			throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
-		try {
-			EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
-			emailService.sendEmail(currentEmailEntity);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Response response = new Response("Success", "Email sending is in progress", "", null,
-				LocalDateTime.now().format(formatter));
-		return new ResponseEntity<>(response, HttpStatus.CREATED);
-	}
-
 	// This api is used to get the status of emails
 	@GetMapping("/emailStatus")
 	public ResponseEntity<Response> getStatusOfEmails(@RequestBody String tkns) throws IOException {
