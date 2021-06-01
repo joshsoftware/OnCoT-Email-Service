@@ -27,8 +27,8 @@ import com.josh.emailFunctionality.common.Response;
 import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
 import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
+import com.josh.emailFunctionality.dto.EmailStatusResponseDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
-import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailTemplateHelper;
 import com.josh.emailFunctionality.service.IEmailRegisterService;
 import com.josh.emailFunctionality.service.IEmailSendService;
@@ -122,11 +122,11 @@ public class EmailController {
 	}
 
 	// This api is used to get the status of emails
-	@GetMapping("/status")
+	@GetMapping("/emailStatus")
 	public ResponseEntity<Response> getStatusOfEmails(@RequestBody String tkns) throws IOException {
 		String[] tokens = objectMapper.reader().forType(new TypeReference<String[]>() {
 		}).readValue(tkns);
-		Map<String, EmailStatus> emailStatus = emailService.getAllStatusByToken(tokens);
+		Map<String, EmailStatusResponseDto> emailStatus = emailService.getAllStatusByToken(tokens);
 		Response response = new Response("Success", "Status", "", new HashMap<>(),
 				LocalDateTime.now().format(formatter));
 		response.getData().put("Status", emailStatus);

@@ -25,6 +25,7 @@ import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
+import com.josh.emailFunctionality.dto.EmailStatusResponseDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailServiceHelper;
@@ -144,7 +145,7 @@ public class EmailSendServiceImplTest {
 
 		when(emailRepoMockBean.findByToken("123")).thenReturn(emailEntity);
 		String[] arr = { "123" };
-		Map<String, EmailStatus> emailEntities = emailService.getAllStatusByToken(arr);
+		Map<String, EmailStatusResponseDto> emailEntities = emailService.getAllStatusByToken(arr);
 		assertEquals(emailEntities.get("123"), EmailStatus.COMPLETED);
 
 		when(emailRepoMockBean.findByToken("123")).thenReturn(null);

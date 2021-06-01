@@ -30,6 +30,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josh.emailFunctionality.controller.EmailController;
+import com.josh.emailFunctionality.dto.EmailStatusResponseDto;
 import com.josh.emailFunctionality.entity.EmailRegistration;
 import com.josh.emailFunctionality.entity.EmailStatus;
 import com.josh.emailFunctionality.helper.EmailTemplateHelper;
@@ -113,8 +114,9 @@ public class EmailControllerTest {
 
 	@Test
 	public void getStatusOfEmailsTest() throws Exception {
-		Map<String, EmailStatus> emailEntities = new HashMap<>();
-		emailEntities.put("123", EmailStatus.COMPLETED);
+		Map<String, EmailStatusResponseDto> emailEntities = new HashMap<>();
+		EmailStatusResponseDto emailStatusResponseDto = new EmailStatusResponseDto(EmailStatus.COMPLETED,null,"sample@gmail.com");
+		emailEntities.put("123", emailStatusResponseDto);
 		String[] tkns = { "123" };
 		when(emailService.getAllStatusByToken(tkns)).thenReturn(emailEntities);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/status")

@@ -18,6 +18,7 @@ public class EmailTemplateHelper {
 
 	public String subject;
 
+	//to set email template
 	public void setEmailTemplate(EmailArrayRequestDto emailArrayRequestDto) throws Exception {
 		subject = "Invitation for " + emailArrayRequestDto.getDrive_details().getOrganization() + " "
 				+ emailArrayRequestDto.getDrive_details().getDrive() + " coding round by OnCot";
