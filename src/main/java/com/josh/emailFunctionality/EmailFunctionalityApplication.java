@@ -1,5 +1,7 @@
 package com.josh.emailFunctionality;
 
+import java.util.TimeZone;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,5 +16,6 @@ public class EmailFunctionalityApplication {
 	public static ConfigurableApplicationContext context;
 	public static void main(String[] args) {
 		context = SpringApplication.run(EmailFunctionalityApplication.class, args);
+		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
 	}
 }

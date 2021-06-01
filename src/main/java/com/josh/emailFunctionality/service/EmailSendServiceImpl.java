@@ -61,7 +61,6 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	@PostConstruct
 	public void makeSenderEmailAvailable()
 	{
-		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
 		for(EmailRegistration emailRegistration:emailRegRepo.findAll())
 		{
 		  if(!emailRegistration.isAvailable())
