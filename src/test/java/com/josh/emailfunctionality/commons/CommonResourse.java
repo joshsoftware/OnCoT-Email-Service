@@ -8,9 +8,11 @@ import com.josh.emailFunctionality.dto.DriveDetailsRequestDto;
 import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
 import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
+import com.josh.emailFunctionality.dto.EmailStatusResponseDto;
 import com.josh.emailFunctionality.dto.HrDataRequestDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailRegistration;
+import com.josh.emailFunctionality.entity.EmailStatus;
 
 public class CommonResourse {
 
@@ -23,6 +25,7 @@ public class CommonResourse {
 	private static List<HrDataRequestDto> hrData = new ArrayList<HrDataRequestDto>();
 	private static DriveDetailsRequestDto driveDetailsRequestDto = new DriveDetailsRequestDto("test","test_sample","2021-11-05 22:10:22","2021-12-24 10:03:22", hrData);
 	private static List<EmailRequestDto> emailRequestDtos = new ArrayList<>();
+	private static EmailStatusResponseDto emailStatusResponseDto = new EmailStatusResponseDto(EmailStatus.COMPLETED,"","test@gmail.com");
 	
 	public static EmailArrayRequestDto getEmailArrayRequestDto()
 	{
@@ -63,5 +66,9 @@ public class CommonResourse {
 	public static EmailEntity getEmailEntity()
 	{
 		return emailEntity;
+	}
+	public static EmailStatusResponseDto getEmailStatusResponseDto()
+	{
+		return emailStatusResponseDto;
 	}
 }
