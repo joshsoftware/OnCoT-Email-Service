@@ -691,3 +691,7 @@ Caused by: java.sql.SQLSyntaxErrorException: Unknown table 'SEQUENCES' in inform
 2021-06-01 15:26:44.090  INFO 26704 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
 2021-06-01 15:26:44.188  INFO 26704 --- [restartedMain] c.j.e.EmailFunctionalityApplication      : Started EmailFunctionalityApplication in 1.096 seconds (JVM running for 2008.116)
 2021-06-01 15:26:44.191  INFO 26704 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2021-06-01 15:27:42.117  INFO 26704 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2021-06-01 15:27:42.162  INFO 26704 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-06-01 15:27:42.165  INFO 26704 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2021-06-01 15:27:42.180  INFO 26704 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
