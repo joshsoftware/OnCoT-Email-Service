@@ -67,6 +67,11 @@ public class CommonResourse {
 	{
 		return emailEntity;
 	}
+	public static EmailEntity getEmailEntityForStatus()
+	{
+		emailEntity = new EmailEntity(1L, "ajinkyawaghdare97@gmail.com", "123", EmailStatus.COMPLETED, "test@gmail.com", null);
+		return emailEntity;
+	}
 	public static EmailStatusResponseDto getEmailStatusResponseDto()
 	{
 		return emailStatusResponseDto;

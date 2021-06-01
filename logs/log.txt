@@ -293,3 +293,9 @@ Caused by: org.postgresql.util.PSQLException: This connection has been closed.
 2021-06-01 15:24:51.106  INFO 39981 --- [main] c.j.e.service.EmailSendServiceImplTest   : Starting EmailSendServiceImplTest using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 39981 (started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
 2021-06-01 15:24:51.123  INFO 39981 --- [main] c.j.e.service.EmailSendServiceImplTest   : No active profile set, falling back to default profiles: default
 2021-06-01 15:24:53.843  INFO 39981 --- [main] c.j.e.service.EmailSendServiceImplTest   : Started EmailSendServiceImplTest in 3.79 seconds (JVM running for 6.457)
+2021-06-01 15:37:42.285  INFO 40543 --- [main] c.j.e.service.EmailSendServiceImplTest   : Starting EmailSendServiceImplTest using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 40543 (started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
+2021-06-01 15:37:42.293  INFO 40543 --- [main] c.j.e.service.EmailSendServiceImplTest   : No active profile set, falling back to default profiles: default
+2021-06-01 15:37:43.849  INFO 40543 --- [main] c.j.e.service.EmailSendServiceImplTest   : Started EmailSendServiceImplTest in 2.261 seconds (JVM running for 3.879)
+2021-06-01 15:38:17.780  INFO 40638 --- [main] c.j.e.service.EmailSendServiceImplTest   : Starting EmailSendServiceImplTest using Java 15.0.2 on hp-HP-ProBook-430-G4 with PID 40638 (started by hp in /home/hp/SpringHibernate/MyProject/Oncot-Email-Functionality-SpringBoot)
+2021-06-01 15:38:17.809  INFO 40638 --- [main] c.j.e.service.EmailSendServiceImplTest   : No active profile set, falling back to default profiles: default
+2021-06-01 15:38:19.791  INFO 40638 --- [main] c.j.e.service.EmailSendServiceImplTest   : Started EmailSendServiceImplTest in 2.684 seconds (JVM running for 4.278)

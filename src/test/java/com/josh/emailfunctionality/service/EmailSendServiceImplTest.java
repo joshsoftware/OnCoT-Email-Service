@@ -140,14 +140,12 @@ public class EmailSendServiceImplTest {
 
 	@Test
 	public void getAllStatusByTokenTest() {
-		EmailEntity emailEntity = CommonResourse.getEmailEntity();
-		emailEntity.setStatus(EmailStatus.COMPLETED);
 
-		when(emailRepoMockBean.findByToken("123")).thenReturn(emailEntity);
+		when(emailRepoMockBean.findByToken("123")).thenReturn(CommonResourse.getEmailEntityForStatus());
 		String[] arr = { "123" };
 		Map<String, EmailStatusResponseDto> emailEntities = emailService.getAllStatusByToken(arr);
 		System.out.println(emailEntities);
-		//assertEquals(emailEntities.get("123"), EmailStatus.COMPLETED);
+		assertEquals(emailEntities.get("123"), CommonResourse.getEmailEntityForStatus());
 
 		emailEntities = emailService.getAllStatusByToken(arr);
 		

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -60,6 +61,7 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	@PostConstruct
 	public void makeSenderEmailAvailable()
 	{
+		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
 		for(EmailRegistration emailRegistration:emailRegRepo.findAll())
 		{
 		  if(!emailRegistration.isAvailable())
