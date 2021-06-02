@@ -8,9 +8,11 @@ import com.josh.emailFunctionality.dto.DriveDetailsRequestDto;
 import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
 import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
+import com.josh.emailFunctionality.dto.EmailStatusResponseDto;
 import com.josh.emailFunctionality.dto.HrDataRequestDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
 import com.josh.emailFunctionality.entity.EmailRegistration;
+import com.josh.emailFunctionality.entity.EmailStatus;
 
 public class CommonResourse {
 
@@ -19,10 +21,11 @@ public class CommonResourse {
 	private static ScheduledThreadPoolExecutor scheduledThreadPoolExecutor= new ScheduledThreadPoolExecutor(1);
 	private static EmailRequestDto emailRequestDto = new EmailRequestDto("test@gmail.com","123");
 	private static EmailEntity emailEntity = new EmailEntity(emailRequestDto);
-	private static List<EmailRegistration> availableEmails = new ArrayList<>();
+	private static List<EmailRegistration> availableEmails;
 	private static List<HrDataRequestDto> hrData = new ArrayList<HrDataRequestDto>();
 	private static DriveDetailsRequestDto driveDetailsRequestDto = new DriveDetailsRequestDto("test","test_sample","2021-11-05 22:10:22","2021-12-24 10:03:22", hrData);
 	private static List<EmailRequestDto> emailRequestDtos = new ArrayList<>();
+	private static EmailStatusResponseDto emailStatusResponseDto = new EmailStatusResponseDto(EmailStatus.COMPLETED,"","test@gmail.com");
 	
 	public static EmailArrayRequestDto getEmailArrayRequestDto()
 	{
@@ -33,6 +36,7 @@ public class CommonResourse {
 	}
 	
 	public static List<EmailRegistration> getAllEmails() {
+		availableEmails = new ArrayList<>();
 		availableEmails.add(emailRegistration);
 		return availableEmails;
 	}
@@ -40,6 +44,11 @@ public class CommonResourse {
 	public static EmailRegistration getEmailRegistration() {
 		return emailRegistration;
 	}
+	public static EmailRegistration getNewEmailRegistration() {
+		return new EmailRegistration(emailRegisterRequestDto);
+	}
+	
+	
 	public static EmailRegisterRequestDto getEmailRegistrationRequestDto()
 	{
 		return emailRegisterRequestDto;
@@ -57,5 +66,14 @@ public class CommonResourse {
 	public static EmailEntity getEmailEntity()
 	{
 		return emailEntity;
+	}
+	public static EmailEntity getEmailEntityForStatus()
+	{
+		emailEntity = new EmailEntity(1L, "ajinkyawaghdare97@gmail.com", "123", EmailStatus.COMPLETED, "test@gmail.com", null);
+		return emailEntity;
+	}
+	public static EmailStatusResponseDto getEmailStatusResponseDto()
+	{
+		return emailStatusResponseDto;
 	}
 }

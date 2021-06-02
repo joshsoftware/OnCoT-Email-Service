@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.josh.emailFunctionality.Exception.AccountNotFoundException;
 import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
 import com.josh.emailFunctionality.common.Response;
@@ -69,6 +70,27 @@ public class CentralExceptionalHandler {
 	err.setError("Validation failed for given input parameters");
 	err.setTimeStamp(LocalDateTime.now().format(format));
 	return new ResponseEntity<Object>(err, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+	
+	
+	@ExceptionHandler(JsonMappingException.class)
+	public ResponseEntity<?> handleJsonBindException(JsonMappingException ex, WebRequest rq)
+	{
+		Response err = new Response();
+		err.setStatus("Error");
+		err.setMessage("Oops....!!! Something went wrong..");
+		err.setError(ex.getOriginalMessage());
+		err.setTimeStamp(LocalDateTime.now().format(format));
+		return new ResponseEntity<Object>(err, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> handleAllException(Exception ex, WebRequest rq)
+	{
+		Response err = new Response();
+		err.setStatus("Error");
+		err.setError(ex.getMessage());
+		err.setTimeStamp(LocalDateTime.now().format(format));
+		return new ResponseEntity<Object>(err, HttpStatus.BAD_REQUEST);
 	}
 
 }

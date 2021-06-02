@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +32,7 @@ public class EmailRegisterServiceImplTest {
 	@Autowired
 	WebApplicationContext webApplicationContext;
 
-	@InjectMocks
+	@Autowired
 	EmailRegisterServiceImpl emailRegisterServiceImpl;
 
 	@MockBean
@@ -55,14 +54,13 @@ public class EmailRegisterServiceImplTest {
 	@Test
 	public void addEmailTest() {
 		EmailRegisterRequestDto regEmailReqDto = CommonResourse.getEmailRegistrationRequestDto();
-		when(registerEmailRepository.save(CommonResourse.getEmailRegistration()))
+		when(registerEmailRepository.save(CommonResourse.getNewEmailRegistration()))
 				.thenReturn(CommonResourse.getEmailRegistration());
 		when(registerEmailRepository.findAll()).thenReturn(CommonResourse.getAllEmails());
 		when(emailRegHelper.reinitiateThreadPool(1)).thenReturn(CommonResourse.getThreadPoolExecutor());
 		when(encrypHelperMock.encrypt(regEmailReqDto.getPassword())).thenReturn("test");
 		EmailRegistration emailRegistration = emailRegisterServiceImpl.addEmail(regEmailReqDto);
 		assertEquals(emailRegistration.getEmail(), regEmailReqDto.getEmail());
-
 	}
 
 	@Test

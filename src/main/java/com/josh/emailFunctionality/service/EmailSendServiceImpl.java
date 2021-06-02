@@ -5,10 +5,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +56,22 @@ public class EmailSendServiceImpl implements IEmailSendService {
 
 	private Logger logger = LoggerFactory.getLogger(EmailSendServiceImpl.class);
 
-	// This method is used to send emails to the registered candidates
+	
+	//new method to renew the availability at application startup time
+	@PostConstruct
+	public void makeSenderEmailAvailable()
+	{
+		for(EmailRegistration emailRegistration:emailRegRepo.findAll())
+		{
+		  if(!emailRegistration.isAvailable())
+		  {
+			  emailRegistration.setAvailable(true);
+			  emailRegRepo.save(emailRegistration);
+		  }
+		}	
+	}
+	
+	//This method is used to send emails to the registered candidates
 	@Override
 	@Async("CustomThreadConfig")
 	public void sendEmail(EmailEntity emailCustom) throws Exception {
@@ -175,7 +193,10 @@ public class EmailSendServiceImpl implements IEmailSendService {
 			EmailEntity emailEntity = emailRepository.findByToken(token);
 			EmailStatusResponseDto emailStatusEntities = new EmailStatusResponseDto();
 			if (emailEntity != null) {
-				emailStatusEntities.setSentAt(emailEntity.getTimeStamp().toString());
+				if(emailEntity.getTimeStamp()!=null)
+					emailStatusEntities.setSentAt(emailEntity.getTimeStamp().toString());
+				else
+					emailStatusEntities.setSentAt(null);
 				emailStatusEntities.setStatus(emailEntity.getStatus());
 				emailStatusEntities.setSender(emailEntity.getSender());
 				emailEntities.put(token, emailStatusEntities);
