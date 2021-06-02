@@ -73,19 +73,6 @@ public class EmailControllerTest {
 	}
 
 	@Test
-	void testEmailSendFunctionality() throws Exception {
-		String input = mapToJson(CommonResourse.getEmailRequestDto());
-		when(emailService.saveEmail(CommonResourse.getEmailRequestDto())).thenReturn(CommonResourse.getEmailEntity());
-		when(emailRegService.getAllEmails()).thenReturn(CommonResourse.getAllEmails());
-
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/email")
-				.contentType(MediaType.APPLICATION_JSON_VALUE).content(input);
-		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
-		assertEquals(mvcRes.getResponse().getStatus(), 201);
-		assertEquals(mvcRes.getResponse().getContentAsString().contains("Success"), true);
-	}
-
-	@Test
 	public void testMultipleEmailSendFunctionality() throws Exception {
 		String input = mapToJson(CommonResourse.getEmailArrayRequestDto());
 		when(emailService.saveEmail(CommonResourse.getEmailRequestDto())).thenReturn(CommonResourse.getEmailEntity());
@@ -115,11 +102,12 @@ public class EmailControllerTest {
 	@Test
 	public void getStatusOfEmailsTest() throws Exception {
 		Map<String, EmailStatusResponseDto> emailEntities = new HashMap<>();
-		EmailStatusResponseDto emailStatusResponseDto = new EmailStatusResponseDto(EmailStatus.COMPLETED,null,"sample@gmail.com");
+		EmailStatusResponseDto emailStatusResponseDto = new EmailStatusResponseDto(EmailStatus.COMPLETED, null,
+				"sample@gmail.com");
 		emailEntities.put("123", emailStatusResponseDto);
 		String[] tkns = { "123" };
 		when(emailService.getAllStatusByToken(tkns)).thenReturn(emailEntities);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/status")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/emailStatus")
 				.contentType(MediaType.APPLICATION_JSON_VALUE).content("[123]");
 		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
 		@SuppressWarnings("unchecked")
@@ -134,7 +122,7 @@ public class EmailControllerTest {
 	public void deleteEmailAccountTest() throws Exception {
 
 		when(emailRegService.deleteEmail(1)).thenReturn(CommonResourse.getEmailRegistration());
-		
+
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/email/1");
 		MvcResult mvcRes = mvc.perform(requestBuilder).andReturn();
 		assertEquals(mvcRes.getResponse().getStatus(), 200);

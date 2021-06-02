@@ -25,7 +25,7 @@ public class CommonResourse {
 	private static List<HrDataRequestDto> hrData = new ArrayList<HrDataRequestDto>();
 	private static DriveDetailsRequestDto driveDetailsRequestDto = new DriveDetailsRequestDto("test","test_sample","2021-11-05 22:10:22","2021-12-24 10:03:22", hrData);
 	private static List<EmailRequestDto> emailRequestDtos = new ArrayList<>();
-	private static EmailStatusResponseDto emailStatusResponseDto = new EmailStatusResponseDto(EmailStatus.COMPLETED,"","test@gmail.com");
+	private static EmailStatusResponseDto emailStatusResponseDto = new EmailStatusResponseDto(EmailStatus.COMPLETED,null,"test@gmail.com");
 	
 	public static EmailArrayRequestDto getEmailArrayRequestDto()
 	{

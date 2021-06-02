@@ -67,7 +67,7 @@ public class EmailSendServiceImplTest {
 	@Autowired
 	private EmailSendRespository emailSendRepo;
 
-	//@Test
+	@Test
 	public void sendEmailTest() throws Exception {
 		EmailRequestDto emailReqDto = CommonResourse.getEmailRequestDto();
 		EmailEntity emailCustom = CommonResourse.getEmailEntity();
@@ -122,7 +122,7 @@ public class EmailSendServiceImplTest {
 
 	}
 
-	//@Test
+	@Test
 	public void saveEmailTest() {
 		EmailRequestDto emailReqDto = CommonResourse.getEmailRequestDto();
 		EmailEntity emailEntity = CommonResourse.getEmailEntity();
@@ -145,11 +145,8 @@ public class EmailSendServiceImplTest {
 		String[] arr = { "123" };
 		Map<String, EmailStatusResponseDto> emailEntities = emailService.getAllStatusByToken(arr);
 		System.out.println(emailEntities);
-		assertEquals(emailEntities.get("123"), CommonResourse.getEmailEntityForStatus());
-
+		assertEquals(emailEntities.get("123"), CommonResourse.getEmailStatusResponseDto());
 		emailEntities = emailService.getAllStatusByToken(arr);
-		
-		//assertEquals(emailEntities.get("123"), EmailStatus.NOTFOUND);
 	}
 
 }

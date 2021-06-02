@@ -45,7 +45,7 @@ public class EmailEntity {
 
 	@Column(name = "sent_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Kolkata")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date timeStamp;
 
 	public EmailEntity(EmailRequestDto emailRequestDto) {
