@@ -10,14 +10,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailRequestDto {
+public class EmailRegisterRequestDto {
 	
 	@NotBlank(message="Email cannot be blank or null")
 	@ApiModelProperty(required = true)
 	private String email;
 	
-	@NotBlank(message="Token cannot be blank or null")
+	@NotBlank(message="Password cannot be blank or null")
 	@ApiModelProperty(required = true)
-	private String token;
-
+	private String password;
 }

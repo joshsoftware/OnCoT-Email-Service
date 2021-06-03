@@ -2,66 +2,120 @@ package com.josh.emailFunctionality.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.josh.emailFunctionality.Exception.NoEmailAccountsRegisteredException;
+import com.josh.emailFunctionality.common.Response;
+import com.josh.emailFunctionality.dto.EmailArrayRequestDto;
+import com.josh.emailFunctionality.dto.EmailRegisterRequestDto;
 import com.josh.emailFunctionality.dto.EmailRequestDto;
-import com.josh.emailFunctionality.dto.EmailResponseDto;
+import com.josh.emailFunctionality.dto.EmailStatusResponseDto;
 import com.josh.emailFunctionality.entity.EmailEntity;
-import com.josh.emailFunctionality.entity.EmailStatus;
+import com.josh.emailFunctionality.helper.EmailTemplateHelper;
+import com.josh.emailFunctionality.service.IEmailRegisterService;
 import com.josh.emailFunctionality.service.IEmailSendService;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin
 public class EmailController {
+
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+	@Autowired
+	private IEmailSendService emailService;
+
+	@Autowired
+	private IEmailRegisterService emailRegisterService;
+
+	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Autowired
-	IEmailSendService emailService;
-	
-	@PostMapping("/email")
-	public String sendEmails(@RequestBody EmailRequestDto emailRequestDto) {
-		List<EmailRequestDto> tempList = new ArrayList<EmailRequestDto>();
-		for(int i=1;i<500;i++) {
-			String token12 = "qwerty"+i;
-			EmailRequestDto em1 = new EmailRequestDto("super.noreply.springboot11@gmail.com",token12);
-			tempList.add(em1);
-		}
-		for(EmailRequestDto emdto : tempList) {
-			EmailStatus stat;
-			EmailEntity email = emailService.saveEmail(emdto);
+	private EmailTemplateHelper templateHelper;
+
+	// This api is used to register sender emails
+	@PostMapping("/register")
+	public ResponseEntity<Response> registerEmailAccount(@RequestBody EmailRegisterRequestDto regEmailReqDto) {
+
+		emailRegisterService.addEmail(regEmailReqDto);
+		Response response = new Response("Success", "Email added in database successfully", "", null,
+				LocalDateTime.now().format(formatter));
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	// This api is used to get the list of registered sender emails
+	@GetMapping("/emails")
+	public ResponseEntity<Response> getRegisteredEmail() {
+		Response response = new Response("Success", "Registerd Emails", "", new HashMap<>(),
+				LocalDateTime.now().format(formatter));
+		response.getData().put("emails", emailRegisterService.getAllEmails());
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	// This api is used to delete the sender emails by id
+	@DeleteMapping("/email/{id}")
+	public ResponseEntity<Response> deleteEmailAccount(@PathVariable long id) {
+		emailRegisterService.deleteEmail(id);
+		Response response = new Response("Success", "Email deleted successfully", "", null,
+				LocalDateTime.now().format(formatter));
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	// This api is used to send emails to candidate as an array of emails and token
+	// object
+	@PostMapping("/sendEmails")
+	public ResponseEntity<Response> sendAllEmails(@Valid @RequestBody EmailArrayRequestDto emailArrayRequestDto) {
+		
+		try {
+			templateHelper.setEmailTemplate(emailArrayRequestDto);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}	
+		for (EmailRequestDto emailRequestDto : emailArrayRequestDto.getEmails()) {
+			if (emailRegisterService.getAllEmails().size() == 0)
+				throw new NoEmailAccountsRegisteredException("Please registered at least 1 email account");
 			try {
-				emailService.sendEmail(emdto.getEmail(), "Subject", "Test text");
-				stat = EmailStatus.COMPLETED;
+				EmailEntity currentEmailEntity = emailService.saveEmail(emailRequestDto);
+				emailService.sendEmail(currentEmailEntity);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-				stat = EmailStatus.FAILED;
 			}
-			emailService.updateEmail(email.getToken(),stat);
 		}
-		
-		
-//		EmailStatus stat;
-//		EmailEntity email = emailService.saveEmail(emailRequestDto);
-//		try {
-//			emailService.sendEmail(emailRequestDto.getEmail(), "Subject", "Test text");
-//			stat = EmailStatus.COMPLETED;
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			stat = EmailStatus.FAILED;
-//		}
-//////		EmailEntity email = emailService.updateEmail(emailRequestDto.getToken());
-////		email.setStatus(EmailStatus.COMPLETED);
-//		System.out.println("Afetr expection");
-//		emailService.updateEmail(email.getToken(),stat);
-		return "Ok";
+		Response response = new Response("Success", "Email sending is in progress", "", null,
+				LocalDateTime.now().format(formatter));
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+	}
+
+	// This api is used to get the status of emails
+	@GetMapping("/emailStatus")
+	public ResponseEntity<Response> getStatusOfEmails(@RequestBody String tkns) throws IOException {
+		String[] tokens = objectMapper.reader().forType(new TypeReference<String[]>() {
+		}).readValue(tkns);
+		Map<String, EmailStatusResponseDto> emailStatus = emailService.getAllStatusByToken(tokens);
+		Response response = new Response("Success", "Status", "", new HashMap<>(),
+				LocalDateTime.now().format(formatter));
+		response.getData().put("Status", emailStatus);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }
