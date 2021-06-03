@@ -17,5 +17,6 @@ public class EmailFunctionalityApplication {
 	public static void main(String[] args) {
 		context = SpringApplication.run(EmailFunctionalityApplication.class, args);
 		TimeZone.setDefault(TimeZone.getTimeZone("IST"));
+		System.out.println(System.getenv("PASSWORD"));
 	}
 }
