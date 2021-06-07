@@ -13,7 +13,7 @@ This application would send the online drive invitations emails to the registere
 1. RDS database should have the database name as 'email_service'(If you wish to name it other than this please make the necessary changes in .env files).
 2. Take the note of all database credentials like username, password and endpoint as they all need to be updated in .env file.
 
-## Deployment Details(AWS EC3 & RDS)
+## Deployment Details(AWS EC2 & RDS)
 1. Export enviorment varibles from .env file into the enviorment - command -> export $(cat .env | xargs)
 2. (Optional) Install maven if not present - command -> sudo apt install maven
 3. Build production jar - command -> mvn install 
