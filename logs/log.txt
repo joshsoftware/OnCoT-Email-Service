@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2021-06-01 14:55:10.093  WARN 37367 --- [pool-1-thread-4] com.zaxxer.hikari.pool.ProxyConnection   : HikariPool-1 - Connection org.postgresql.jdbc.PgConnection@413555e7 marked as broken because of SQLSTATE(08003), ErrorCode(0)
 
 org.postgresql.util.PSQLException: This connection has been closed.
@@ -3863,3 +3864,11 @@ org.postgresql.util.PSQLException: FATAL: invalid value for parameter "TimeZone"
 2021-06-03 12:57:20.731  INFO 3515 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2021-06-03 12:57:20.736  INFO 3515 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2021-06-03 12:57:20.749  INFO 3515 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+=======
+2021-06-07 09:52:29.937  WARN 74688 --- [registrationTask1] d.c.b.a.c.r.ApplicationRegistrator       : Failed to register application as Application(name=spring-boot-application, managementUrl=http://hp-HP-ProBook-430-G4:8080/actuator, healthUrl=http://hp-HP-ProBook-430-G4:8080/actuator/health, serviceUrl=http://hp-HP-ProBook-430-G4:8080/) at spring-boot-admin ([http://localhost:9080/instances]): I/O error on POST request for "http://localhost:9080/instances": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused). Further attempts are logged on DEBUG level
+2021-06-07 09:52:33.365  INFO 74688 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2021-06-07 09:52:33.424  INFO 74688 --- [RMI TCP Connection(2)-127.0.0.1] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService
+2021-06-07 09:52:33.469  INFO 74688 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-06-07 09:52:33.481  INFO 74688 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-06-07 09:52:33.508  INFO 74688 --- [RMI TCP Connection(2)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+>>>>>>> 068a023061b93378fd2986627b5c193bfe0879f4

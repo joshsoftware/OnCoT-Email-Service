@@ -42,7 +42,6 @@ public class EmailEntity {
 	@Column(name = "sent_by")
 	private String sender;
 	
-
 	@Column(name = "sent_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
