@@ -41,6 +41,10 @@ This application would send the online drive invitations emails to the registere
 By default, endpoints are exposed over http via application port.<br />
 Base path: http://localhost:8080
 
+ * Swagger document : <br>
+  `GET /swagger-ui/`<br>
+  Use this api to get the swagger document.
+
  * Register sender email-id/s : <br>
   `POST /api/v1/register `<br>
   Use this api to register  sender email-id/s. <br>For more details please [refer](http://oncot-emailfunctionality-v1.herokuapp.com/swagger-ui/) swagger api document.
