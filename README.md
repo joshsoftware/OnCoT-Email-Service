@@ -8,9 +8,13 @@ This application would send the online drive invitations emails to the registere
 * Spring boot version 2.4.5 and above
 * Eclipse or any equivalent IDE
 * Maven build tool
+* 
+## Prerequisites of Deployment(On AWS):
+1. RDS database should have the database name as 'email_service'(If you wish to name it other than this please make the necessary changes in .env files).
+2. Take the note of all database credentials like username, password and endpoint as they all need to be updated in .env file.
 
-## Deployment Details
-1. export enviorment varibles from .env file into the enviorment - command -> export $(cat .env | xargs)
+## Deployment Details(AWS EC3 & RDS)
+1. Export enviorment varibles from .env file into the enviorment - command -> export $(cat .env | xargs)
 2. (Optional) Install maven if not present - command -> sudo apt install maven
 3. Build production jar - command -> mvn install 
 4. Install JDK 1.8 on the aws ec2 instance
@@ -77,6 +81,7 @@ This exception occurs when the connection between the app and smtp server fails/
 
 ## Database Schema
 
+### Database - Postgres SQL
 ### Database Name - email_service
 
 ![Database schema](databaseSchema.png)
