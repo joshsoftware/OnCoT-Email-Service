@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import javax.validation.Valid;
 
@@ -56,7 +57,6 @@ public class EmailController {
 	// This api is used to register sender emails
 	@PostMapping("/register")
 	public ResponseEntity<Response> registerEmailAccount(@RequestBody EmailRegisterRequestDto regEmailReqDto) {
-
 		emailRegisterService.addEmail(regEmailReqDto);
 		Response response = new Response("Success", "Email added in database successfully", "", null,
 				LocalDateTime.now().format(formatter));

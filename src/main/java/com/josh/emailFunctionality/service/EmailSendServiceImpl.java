@@ -46,7 +46,6 @@ public class EmailSendServiceImpl implements IEmailSendService {
 	public static long dailyLimitTimestamp;
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	private Timer timer = new Timer();
-	public static int emailCount = 0;
 
 	@Autowired
 	private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
@@ -92,8 +91,6 @@ public class EmailSendServiceImpl implements IEmailSendService {
 				time = new Timestamp(System.currentTimeMillis());
 				emailCustom.setTimeStamp(time);
 				updateEmail(emailCustom.getToken(), stat, sender, time);
-				System.out.println("Email Sent : " + emailCount);
-				emailCount++;
 			} catch (Exception e) {
 				System.out.println(e.getCause());
 				if (e.getCause() instanceof javax.mail.AuthenticationFailedException) {
