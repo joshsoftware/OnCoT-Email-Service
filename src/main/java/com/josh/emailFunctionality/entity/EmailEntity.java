@@ -1,24 +1,17 @@
 package com.josh.emailFunctionality.entity;
 
-<<<<<<< HEAD
-=======
 import java.util.Date;
 
->>>>>>> okay-branch-1
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-<<<<<<< HEAD
-
-=======
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
->>>>>>> okay-branch-1
 import com.josh.emailFunctionality.dto.EmailRequestDto;
 
 import lombok.AllArgsConstructor;
